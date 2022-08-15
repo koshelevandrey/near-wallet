@@ -8,9 +8,9 @@ function App() {
 
     chrome.tabs &&
       chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0].url;
+        const url = tabs[0]?.url;
 
-        alert(`Your url: ${url}`);
+        url && alert(`Your url: ${url}`);
       });
   };
 
