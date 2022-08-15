@@ -32,7 +32,7 @@ async function openPopup() {
 
 // Catch messages from content script
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request === "near#enable") {
+  if (request?.type === "near#enable") {
     openPopup();
   }
 

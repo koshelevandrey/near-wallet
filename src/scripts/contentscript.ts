@@ -25,6 +25,6 @@ window.addEventListener("message", (event) => {
   const eventType: string = event?.data?.type;
   // Send message to background messages listener
   if (eventType === "near#enable") {
-    chrome.runtime.sendMessage("near#enable", () => {});
+    chrome.runtime.sendMessage({ type: "near#enable" }, () => {});
   }
 });
