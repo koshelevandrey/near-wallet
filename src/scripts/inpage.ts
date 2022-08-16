@@ -7,7 +7,7 @@ const apiObject = {
     // Send message to content script event listener
     window.postMessage(
       { type: "near#enable", text: "Show NEAR wallet popup" },
-      "*"
+      window.location.origin
     );
   },
 };
