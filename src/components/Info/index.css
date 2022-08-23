@@ -1,0 +1,229 @@
+.infoContainer {
+  width: 440px;
+  height: 662px;
+  padding-bottom: 32px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.infoContainer .header {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.infoContainer .header .item{
+    display: flex;
+    align-items: center;
+}
+.infoContainer .header .item:last-child{
+    margin-left: auto;
+}
+.infoContainer .header .titleContainer{
+    margin-left: 44px;
+}
+.infoContainer .header .title{
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  display: inline-block;
+}
+.infoContainer .header .dropdownBtn{
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202040;
+  width: 100px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+.infoContainer .header .dropdownBtn .arrowIcon {
+  rotate: -90deg;
+  margin-left: 8px;
+  display: inline-block;
+}
+.infoContainer .header .dropdownBtn .arrowIcon > path,
+.infoContainer .header .lockIcon > path,
+.infoContainer .header .settingIcon > path  {
+  stroke: #20202040;
+}
+.infoContainer .header .dropdownBtn .nearIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  display: inline-block;
+}
+.infoContainer .header .item .nearIconTitle{ 
+  width: 20px; 
+  height: 20px;
+  display: inline-block;
+  margin-right: 8px;
+}
+.infoContainer .body{
+  background-image: url(../../images/bgInfo.svg);
+  background-position: center;
+  padding-top: 32px;
+}
+.infoContainer .balanceContainer {
+  width: 320px;
+  height: 168px;
+  border-radius: 8px;
+  backdrop-filter: blur(12px);
+  background: #FFFFFF;
+  margin: 0 auto;
+  padding-top: 17px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.infoContainer .balanceContainer .token{
+   text-align: center;
+   margin-bottom: 21px;
+}
+.infoContainer .balanceContainer .title {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 18px;
+  color: #20202040;
+}
+.infoContainer .balanceContainer .balance{
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 110%;
+  color: #202020;
+}
+.infoContainer .balanceContainer .text{
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #202020;
+  margin-top: 4px;
+}
+.infoContainer .cardContainer .card {
+  height: 70px;
+  width: 320px;
+  margin-bottom: 6px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202040;
+  backdrop-filter: blur(12px);
+  margin: 0 auto 4px;
+}
+.infoContainer .cardContainer .card:last-child{
+  margin-bottom: 40px;
+}
+.infoContainer .cardContainer .valueContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #F2F2FF;
+  height: 44px;
+  border-radius: 8px 8px 0 0;
+  padding: 0 20px;
+}
+.infoContainer .cardContainer .valueContainer .value {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  color: #202020;
+  display: flex;
+}
+.infoContainer .cardContainer .valueContainer .near{
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background-color: #fff;
+  display: flex;
+  background-image: url(../../images/nearIcon.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 9px;
+}
+.infoContainer .cardContainer .card .btn {
+  width: 100%;
+  text-align: center;
+  background-color: #fff;
+  height: 24px;
+  border-radius: 0 0 8px 8px;
+}
+.infoContainer .cardContainer .card .btn > svg {
+  rotate: -90deg;
+}
+.infoContainer .btnSend {
+  width: 320px;
+  height: 48px;
+  background: #202020;
+  border-radius: 88px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FFFFFF;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.infoContainer .btnSend .arrowGroup {
+  margin-right: 6px;
+}
+.infoContainer .btnConteiner {
+  display: flex;
+  margin-top: 40px;
+}
+.infoContainer .btnConteiner > button {
+  width: 50%;
+  display: block;
+  padding-bottom: 4px;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-align: center;
+  color: #20202040;
+}
+.infoContainer .btnConteiner .active {
+  border-bottom: 2px solid #9896F0;
+  color: #202020;
+}
+.infoContainer .footerInfo .text {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202040;
+  margin-bottom: 12px;
+  text-align: center;
+  margin-top: 32px;
+} 
+.infoContainer .footerInfo .btn{
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  text-decoration-line: underline;
+  color: #202020;
+  margin: 0 auto;
+}

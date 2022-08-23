@@ -1,23 +1,24 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+// import logo from "./logo.svg";
+import Info from './components/Info'
+// import "./App.css";
 
 function App() {
-  const handleOnClick = () => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
+  // const handleOnClick = () => {
+  //   const queryInfo = { active: true, lastFocusedWindow: true };
 
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0].url;
+  //   chrome.tabs &&
+  //     chrome.tabs.query(queryInfo, (tabs) => {
+  //       const url = tabs[0].url;
 
-        alert(`Your url: ${url}`);
-      });
-  };
+  //       alert(`Your url: ${url}`);
+  //     });
+  // };
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" />
         <p>
           <button
             onClick={handleOnClick}
@@ -25,8 +26,9 @@ function App() {
           >
             Alert
           </button>
-        </p>
+        </p> */}
       </header>
+      <Info/>
     </div>
   );
 }
