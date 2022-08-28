@@ -1,5 +1,6 @@
 import React from "react";
-import {Info, SendPage} from './components'
+import {Info, SendPage, HomePage} from './components'
+
 
 function App() {
   // const handleOnClick = () => {
@@ -27,8 +28,9 @@ function App() {
         </p> */}
       </header>
       {/* <Info/> */}
-      <SendPage/>
-    </div>
+      {/* <SendPage/> */}
+      <HomePage/>
+     </div>
   );
 }
 
