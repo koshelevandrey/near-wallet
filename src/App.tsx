@@ -1,5 +1,5 @@
 import React from "react";
-import {Info, SendPage, HomePage} from './components'
+import {Info, SendPage, HomePage, ChooseMethod} from './components'
 
 
 function App() {
@@ -29,7 +29,8 @@ function App() {
       </header>
       {/* <Info/> */}
       {/* <SendPage/> */}
-      <HomePage/>
+      {/* <HomePage/> */}
+      <ChooseMethod/>
      </div>
   );
 }
