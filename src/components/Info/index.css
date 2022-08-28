@@ -2,68 +2,8 @@
   width: 440px;
   height: 662px;
   padding-bottom: 32px;
-  background-color: #fff;
+  background-color: var(--white_col);
   border-radius: 20px;
-}
-.infoContainer .header {
-  display: flex;
-  height: 40px;
-  align-items: center;
-  padding-left: 18px;
-  padding-right: 18px;
-}
-.infoContainer .header .item{
-    display: flex;
-    align-items: center;
-}
-.infoContainer .header .item:last-child{
-    margin-left: auto;
-}
-.infoContainer .header .titleContainer{
-    margin-left: 44px;
-}
-.infoContainer .header .title{
-  font-family: 'Manrope';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 19px;
-  color: #000000;
-  display: inline-block;
-}
-.infoContainer .header .dropdownBtn{
-  font-family: 'Manrope';
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  color: #20202040;
-  width: 100px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-}
-.infoContainer .header .dropdownBtn .arrowIcon {
-  rotate: -90deg;
-  margin-left: 8px;
-  display: inline-block;
-}
-.infoContainer .header .dropdownBtn .arrowIcon > path,
-.infoContainer .header .lockIcon > path,
-.infoContainer .header .settingIcon > path  {
-  stroke: #20202040;
-}
-.infoContainer .header .dropdownBtn .nearIcon {
-  width: 16px;
-  height: 16px;
-  margin-right: 4px;
-  display: inline-block;
-}
-.infoContainer .header .item .nearIconTitle{ 
-  width: 20px; 
-  height: 20px;
-  display: inline-block;
-  margin-right: 8px;
 }
 .infoContainer .body{
   background-image: url(../../images/bgInfo.svg);
@@ -75,7 +15,7 @@
   height: 168px;
   border-radius: 8px;
   backdrop-filter: blur(12px);
-  background: #FFFFFF;
+  background: var(--white_col);
   margin: 0 auto;
   padding-top: 17px;
   margin-bottom: 12px;
@@ -86,40 +26,40 @@
    margin-bottom: 21px;
 }
 .infoContainer .balanceContainer .title {
-  font-family: 'Manrope';
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 18px;
-  color: #20202040;
+  color: var(--black_color_secondary_opacity);
 }
 .infoContainer .balanceContainer .balance{
-  font-family: 'Manrope';
+  font-family: var(--font_extra_bold);
   font-style: normal;
   font-weight: 800;
   font-size: 36px;
   line-height: 110%;
-  color: #202020;
+  color: var(--black_color_secondary);
 }
 .infoContainer .balanceContainer .text{
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
-  color: #202020;
+  color: var(--black_color_secondary);
   margin-top: 4px;
 }
 .infoContainer .cardContainer .card {
   height: 70px;
   width: 320px;
   margin-bottom: 6px;
-  font-family: 'Manrope';
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
   line-height: 16px;
-  color: #20202040;
+  color: var(--black_color_secondary_opacity);
   backdrop-filter: blur(12px);
   margin: 0 auto 4px;
 }
@@ -136,13 +76,13 @@
   padding: 0 20px;
 }
 .infoContainer .cardContainer .valueContainer .value {
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
   line-height: 16px;
   text-align: right;
-  color: #202020;
+  color: var(--black_color_Secondary);
   display: flex;
 }
 .infoContainer .cardContainer .valueContainer .near{
@@ -150,7 +90,7 @@
   width: 16px;
   height: 16px;
   margin-right: 4px;
-  background-color: #fff;
+  background-color: var(--white_col);
   display: flex;
   background-image: url(../../images/nearIcon.svg);
   background-position: center;
@@ -170,14 +110,14 @@
 .infoContainer .btnSend {
   width: 320px;
   height: 48px;
-  background: #202020;
+  background: var(--black_color_Secondary);
   border-radius: 88px;
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
-  color: #FFFFFF;
+  color: var(--white_col);
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -194,20 +134,20 @@
   width: 50%;
   display: block;
   padding-bottom: 4px;
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
   text-align: center;
-  color: #20202040;
+  color: var(--black_color_secondary_opacity);
 }
 .infoContainer .btnConteiner .active {
   border-bottom: 2px solid #9896F0;
-  color: #202020;
+  color: var(--black_color_Secondary);
 }
 .infoContainer .footerInfo .text {
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -218,12 +158,12 @@
   margin-top: 32px;
 } 
 .infoContainer .footerInfo .btn{
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 18px;
   text-decoration-line: underline;
-  color: #202020;
+  color: var(--black_color_Secondary);
   margin: 0 auto;
 }

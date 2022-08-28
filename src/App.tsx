@@ -1,7 +1,5 @@
 import React from "react";
-// import logo from "./logo.svg";
-import Info from './components/Info'
-// import "./App.css";
+import {Info, SendPage} from './components'
 
 function App() {
   // const handleOnClick = () => {
@@ -28,7 +26,8 @@ function App() {
           </button>
         </p> */}
       </header>
-      <Info/>
+      {/* <Info/> */}
+      <SendPage/>
     </div>
   );
 }

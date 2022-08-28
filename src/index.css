@@ -1,8 +1,13 @@
-html, body {
-  width: 400px;
-  height: 600px;
+:root {
+  --black_col: #000000;
+  --white_col: #ffffff;
+  --black_color_secondary: #202020;
+  --black_color_secondary_opacity: #20202040;
+  --font_bold: 'ManropeBold';
+  --font_semi_bold: 'ManropeSemiBold';
+  --font_extra_bold: 'ManropeExtraBold';
+  --font_regular: 'ManropeRegular';
 }
-
 body {
   background-color: grey;
   margin: 0;
@@ -21,4 +26,40 @@ button {
   background-color: unset;
   border: unset;
   display: block;
+}
+
+@font-face {
+  font-family: 'ManropeBold';
+  src: url('./fonts/Manrope-Bold.ttf');
+}
+@font-face {
+  font-family: 'ManropeExtraBold';
+  src: url('./fonts/Manrope-ExtraBold.ttf');
+}
+@font-face {
+  font-family: 'ManropeSemiBold';
+  src: url('./fonts/Manrope-SemiBold.ttf');
+}
+@font-face {
+  font-family: 'ManropeRegular';
+  src: url('./fonts/Manrope-Regular.ttf');
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input {
+  border: unset;
+  outline: none !important;
+}
+
+input::placeholder {
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202020;
+  opacity: 0.6;
 }

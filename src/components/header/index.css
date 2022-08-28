@@ -1,0 +1,66 @@
+.header {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.header .backBtn{
+  cursor: pointer;
+}
+.header .item{
+  display: flex;
+  align-items: center;
+}
+.header .item:last-child{
+  margin-left: auto;
+}
+.header .titleContainer{
+  margin-left: 21px;
+}
+.header .title{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  display: inline-block;
+}
+.header .dropdownBtn{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202040;
+  width: 100px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  }
+.header .dropdownBtn .arrowIcon {
+  rotate: -90deg;
+  margin-left: 8px;
+  display: inline-block;
+}
+.header .dropdownBtn .arrowIcon > path,
+.header .lockIcon > path,
+.header .settingIcon > path  {
+  stroke: #20202040;
+}
+.header .dropdownBtn .nearIcon {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  display: inline-block;
+}
+.header .item .nearIconTitle{ 
+  width: 20px; 
+  height: 20px;
+  display: inline-block;
+  margin-right: 8px;
+}
+.header .item > button {
+  cursor: pointer;
+}
