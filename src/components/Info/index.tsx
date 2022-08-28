@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
-import './index.css'
 import {ReactComponent as ArrowIcon} from '../../images/arrow.svg'
-import {ReactComponent as CopyIcon} from '../../images/copyIcon.svg'
 import {ReactComponent as ArrowGroupIcon} from '../../images/arrowGroup.svg'
+import NavFooter from '../navFooter'
+import Footer from '../footer'
 import Header from '../header'
+import BalanceCard from '../balanceCard'
+import './index.css'
 
 const balance = [
  {title: 'Available ballance', value: '0.83 NEAR'}, 
@@ -16,14 +18,7 @@ const Info = () => {
     return <div className='infoContainer'>
       <Header/>
       <div className='body'>
-       <div className='balanceContainer'>
-        <div className='token'>
-         df4d1274f600ee... <CopyIcon className='copyIcon'/>
-        </div>
-        <div className='title'>Balance</div>
-        <div className='balance'>0.93245 NEAR</div>
-        <div className='text'>≈ $6.9208 USD</div>
-       </div>
+      <BalanceCard title='Balance'/>
        <div className='cardContainer'>
         {balance?.map(el => {
             return <div className='card'>
@@ -37,15 +32,9 @@ const Info = () => {
         })}
        </div>
       <button className='btnSend'><ArrowGroupIcon className='arrowGroup'/>Send</button>
-      <div className='btnConteiner'>
-        <button onClick={() => setStep('tokens')} className={step === 'tokens' ?  'active' : ''}>Tokens</button>
-        <button onClick={() => setStep('NFT')} className={step === 'NFT' ?  'active' : ''}>NFT</button>
+      <NavFooter step={step} setStep={setStep}/>
       </div>
-      </div>
-      <div className='footerInfo'>
-        <div className='text'>You don’t have tokens</div>
-        <button className='btn'>Add Token</button>
-      </div>
+      <Footer/>
     </div>
 }
 

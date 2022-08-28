@@ -12,11 +12,11 @@ const ChooseMethod = () => {
         recover your account and access your account from other devices
      </div>
      <div className='btnContainer'>
-        <button  className='btnChoose'>
+        <button  type='button'  className='btnChoose'>
             <div className='btnTitle'>Secure Passphrase</div>
             <div className='btnText'>Generate and safely store a unique passphrase</div>
         </button>
-        <button  className='btnChoose'>
+        <button  type='button'  className='btnChoose'>
             <div className='btnTitle'>Ledger Hardware Wallet</div>
             <div className='btnText'>Secure your account with a Ledger hardware device</div>
         </button>

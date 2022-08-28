@@ -10,46 +10,6 @@
   background-position: center;
   padding-top: 32px;
 }
-.infoContainer .balanceContainer {
-  width: 320px;
-  height: 168px;
-  border-radius: 8px;
-  backdrop-filter: blur(12px);
-  background: var(--white_col);
-  margin: 0 auto;
-  padding-top: 17px;
-  margin-bottom: 12px;
-  text-align: center;
-}
-.infoContainer .balanceContainer .token{
-   text-align: center;
-   margin-bottom: 21px;
-}
-.infoContainer .balanceContainer .title {
-  font-family: var(--font_semi_bold);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 18px;
-  color: var(--black_color_secondary_opacity);
-}
-.infoContainer .balanceContainer .balance{
-  font-family: var(--font_extra_bold);
-  font-style: normal;
-  font-weight: 800;
-  font-size: 36px;
-  line-height: 110%;
-  color: var(--black_color_secondary);
-}
-.infoContainer .balanceContainer .text{
-  font-family: var(--font_bold);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 18px;
-  color: var(--black_color_secondary);
-  margin-top: 4px;
-}
 .infoContainer .cardContainer .card {
   height: 70px;
   width: 320px;
@@ -125,45 +85,4 @@
 }
 .infoContainer .btnSend .arrowGroup {
   margin-right: 6px;
-}
-.infoContainer .btnConteiner {
-  display: flex;
-  margin-top: 40px;
-}
-.infoContainer .btnConteiner > button {
-  width: 50%;
-  display: block;
-  padding-bottom: 4px;
-  font-family: var(--font_bold);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 18px;
-  text-align: center;
-  color: var(--black_color_secondary_opacity);
-}
-.infoContainer .btnConteiner .active {
-  border-bottom: 2px solid #9896F0;
-  color: var(--black_color_Secondary);
-}
-.infoContainer .footerInfo .text {
-  font-family: var(--font_bold);
-  font-style: normal;
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 16px;
-  color: #20202040;
-  margin-bottom: 12px;
-  text-align: center;
-  margin-top: 32px;
-} 
-.infoContainer .footerInfo .btn{
-  font-family: var(--font_bold);
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 18px;
-  text-decoration-line: underline;
-  color: var(--black_color_Secondary);
-  margin: 0 auto;
 }

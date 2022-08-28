@@ -1,5 +1,11 @@
 import React from "react";
-import {Info, SendPage, HomePage, ChooseMethod} from './components'
+import {
+  ChooseMethod, 
+  BalancePage,
+  SendPage, 
+  HomePage, 
+  Info, 
+} from './components'
 
 
 function App() {
@@ -30,7 +36,8 @@ function App() {
       {/* <Info/> */}
       {/* <SendPage/> */}
       {/* <HomePage/> */}
-      <ChooseMethod/>
+      {/* <ChooseMethod/> */}
+      <BalancePage/>
      </div>
   );
 }
