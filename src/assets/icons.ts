@@ -6,6 +6,7 @@ import arrow from '../images/arrow.svg'
 import omniLogo from '../images/omniLogo.svg'
 import arrowGrey from '../images/arrowGrey.svg'
 import arrowGroup from '../images/arrowGroup.svg'
+import arrowDownGroup from '../images/arrowDownGroup.svg'
 
 
 
@@ -13,6 +14,7 @@ import arrowGroup from '../images/arrowGroup.svg'
 
 
 const iconsObj: IconsMapper = {
+    arrowDownGroup,
     arrowGroup,
     arrowGrey,
     nearMenu,

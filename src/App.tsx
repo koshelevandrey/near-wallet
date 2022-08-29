@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  ConfirmationPage,
   ChooseMethod, 
   BalancePage,
   SendPage, 
@@ -37,7 +38,8 @@ function App() {
       {/* <SendPage/> */}
       {/* <HomePage/> */}
       {/* <ChooseMethod/> */}
-      <BalancePage/>
+      {/* <BalancePage/> */}
+      <ConfirmationPage/>
      </div>
   );
 }

@@ -1,4 +1,5 @@
 export interface IconsMapper extends Record<string, unknown> {
+  arrowDownGroup: string;
   arrowGroup: string;
   arrowGrey: string;
   nearMenu: string;

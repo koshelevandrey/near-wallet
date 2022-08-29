@@ -1,0 +1,146 @@
+.confirmationPageContainer{
+  width: 440px;
+  height: 652px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.confirmationPageContainer .body{
+  background-image: url(../../images/bgInfo.svg);
+  background-position: center;
+  padding: 32px 0 0 0;
+  text-align: center;
+  border-radius:0 0 20px 20px;
+}
+.confirmationPageContainer .body .title{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 110%;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #202020;
+}
+.confirmationPageContainer .body .secondaryTitle{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 110%;
+  text-align: center;
+  color: #202020;
+  margin-bottom: 4px;
+}
+.confirmationPageContainer .body .valueTitle{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 110%;
+  text-align: center;
+  color: #202020;
+  margin-bottom: 24px;
+}
+.confirmationPageContainer .body .recipientContainer .value,
+.confirmationPageContainer .body .adddressContainer .value {
+  width: 233px;
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  color: #202020;
+}
+.confirmationPageContainer .recipientContainer,
+.confirmationPageContainer .adddressContainer{
+  width: 320px;
+  height: 16px;
+  background: #F2F2FF;
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 20px;
+  margin: 0 auto;
+  margin-bottom: 4px;
+}
+.confirmationPageContainer .recipientContainer {
+  height: 33px;
+}
+.confirmationPageContainer .assetContainer {
+  width: 320px;
+  height: 107px;
+  background: #F2F2FF;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 0 auto;
+  backdrop-filter: blur(12px);
+  margin-bottom: 4px;
+
+}
+.confirmationPageContainer .assetContainer  > div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.confirmationPageContainer .assetContainer .value:first-child{
+  height: 16px;
+}
+.confirmationPageContainer .assetContainer .value .valueTitle{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  color: #202020;
+  display: flex;
+  align-items: center;
+  margin-bottom: 3px;
+}
+.confirmationPageContainer .assetContainer .value .valueSecondaryTitle{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;    
+  color: #20202040;
+  margin-bottom: 8px;
+ }
+.confirmationPageContainer .recipientContainer .title,
+.confirmationPageContainer .adddressContainer .title,
+.confirmationPageContainer .assetContainer .title{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202040;
+}
+.confirmationPageContainer .iconsGroup{
+    margin: 0 auto 20px;
+}
+.confirmationPageContainer .body .btnSend{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FFFFFF;
+  width: 169px;
+  height: 48px;
+  background: #202020;
+  border-radius: 88px;
+  margin: 40px auto 12px;
+}
+.confirmationPageContainer .body .btnCancel {
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #20202050;
+  margin: 0 auto;
+}
