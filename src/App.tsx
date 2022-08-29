@@ -1,6 +1,7 @@
 import React from "react";
 import {
   ConfirmationPage,
+  TrasactionPage,
   ChooseMethod, 
   BalancePage,
   SendPage, 
@@ -23,23 +24,13 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <button
-            onClick={handleOnClick}
-            style={{ width: "200px", height: "40px" }}
-          >
-            Alert
-          </button>
-        </p> */}
-      </header>
       {/* <Info/> */}
       {/* <SendPage/> */}
       {/* <HomePage/> */}
       {/* <ChooseMethod/> */}
       {/* <BalancePage/> */}
-      <ConfirmationPage/>
+      {/* <ConfirmationPage/> */}
+      <TrasactionPage/>
      </div>
   );
 }

@@ -1,4 +1,5 @@
 export interface IconsMapper extends Record<string, unknown> {
+  transactionIcon: string;
   arrowDownGroup: string;
   arrowGroup: string;
   arrowGrey: string;

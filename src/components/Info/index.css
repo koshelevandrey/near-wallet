@@ -3,7 +3,6 @@
   height: 662px;
   padding-bottom: 32px;
   background-color: var(--white_col);
-  border-radius: 20px;
 }
 .infoContainer .body{
   background-image: url(../../images/bgInfo.svg);
