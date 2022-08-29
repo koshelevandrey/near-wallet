@@ -7,4 +7,4 @@ export { default as NavFooter } from './navFooter'
 export { default as SendPage } from './sendPage'
 export { default as HomePage } from './homePage'
 export { default as Footer } from './footer'
-export { default as Info } from './info';
+export { default as Info } from './Info';
