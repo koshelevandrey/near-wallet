@@ -1,7 +1,9 @@
 import React from 'react'
+import { goTo } from 'react-chrome-extension-router'
 import iconsObj from '../../assets/icons'
 import Header from '../header'
 import Icon from '../icon'
+import BalancePage from '../balancePage'
 import './index.css'
 
 
@@ -14,7 +16,7 @@ const TrasactionPage = () => {
         <div className='secondaryTitle'>You sent</div>
         <div className='near'>0.83 NEAR</div>
         <div className ='recipient'> accomplice.poolv1.near</div>
-        <button className='btnContinue'>Continue</button>
+        <button onClick={() => goTo(BalancePage)} className='btnContinue'>Continue</button>
      </div>
     </div>
 }

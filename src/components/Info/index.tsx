@@ -1,6 +1,8 @@
 import React, {useState} from 'react'
 import {ReactComponent as ArrowIcon} from '../../images/arrow.svg'
 import {ReactComponent as ArrowGroupIcon} from '../../images/arrowGroup.svg'
+import {goTo} from 'react-chrome-extension-router'
+import  SendPage  from '../sendPage'
 import NavFooter from '../navFooter'
 import Footer from '../footer'
 import Header from '../header'
@@ -31,7 +33,9 @@ const Info = () => {
                 </div>
         })}
        </div>
-      <button className='btnSend'><ArrowGroupIcon className='arrowGroup'/>Send</button>
+      <button onClick={() => {goTo(SendPage)}} className='btnSend'>
+         <ArrowGroupIcon className='arrowGroup'/>Send
+      </button>
       <NavFooter step={step} setStep={setStep}/>
       </div>
       <Footer/>

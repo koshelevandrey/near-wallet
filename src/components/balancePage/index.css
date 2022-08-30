@@ -67,6 +67,7 @@
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+  cursor: pointer;
 }
 .balancePageContainer .body .btnSend.visible{
   margin-top: 98px;

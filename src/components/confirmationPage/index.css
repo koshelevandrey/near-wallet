@@ -134,6 +134,7 @@
   background: #202020;
   border-radius: 88px;
   margin: 40px auto 12px;
+  cursor: pointer;
 }
 .confirmationPageContainer .body .btnCancel {
   font-family: var(--font_bold);

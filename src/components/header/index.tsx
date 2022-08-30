@@ -1,4 +1,5 @@
 import React from 'react'
+import {goBack} from 'react-chrome-extension-router'
 import {ReactComponent as NearIcon} from '../../images/nearIcon.svg'
 import {ReactComponent as OmniLogo} from '../../images/omniLogo.svg'
 import {ReactComponent as LockIcon} from '../../images/lockIcon.svg'
@@ -10,7 +11,7 @@ import './index.css'
 const Header = () => {
     return       <div className='header'>
     <div className='item'>
-     <button className='backBtn'>
+     <button onClick={() => goBack()} className='backBtn'>
         <ArrowIcon/>
      </button>
      <button className='dropdownBtn'>
