@@ -51,16 +51,17 @@
   left: 15px;
 }
 .homePageContainer .password {
-  width: 218px;
+  width: 193px;
   height: 48px;
   margin: 0 auto 24px auto;
   background: rgba(0, 0, 0, 0.08);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-radius: 8px;
-  padding-left: 102px;
+  padding-left: 126px;
 }
 .homePageContainer .password::placeholder{
-  font-family: 'Manrope';
+  font-family: var(--font_regular);
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

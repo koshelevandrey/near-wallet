@@ -166,7 +166,7 @@
   color: #202020;
 }
 .sendPageContainer .body .amountContainer .value {
-  font-family: var(--font_bold);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -253,7 +253,7 @@
 }
 .sendPageContainer .dropDownContainer .iconMenu {
   display: flex;
-  font-family: 'Manrope';
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;

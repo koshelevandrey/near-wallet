@@ -18,7 +18,7 @@
   backdrop-filter: blur(12px);
   padding: 0 20px;
   border-radius: 8px;
-  font-family: var(--font_bold);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -110,7 +110,7 @@
 }
 .balancePageContainer .dropdownStake .name ,
 .balancePageContainer .balanceMenu .name{
-  font-family: var(--font_regular);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -129,7 +129,7 @@
 }
 .balancePageContainer .dropdownStake  .valueBalance,
 .balancePageContainer .balanceMenu .valueBalance {
-  font-family: var(--font_regular);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
