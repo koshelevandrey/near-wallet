@@ -1,0 +1,40 @@
+.balanceContainer {
+    width: 320px;
+    height: 151px;
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+    background: var(--white_col);
+    margin: 0 auto;
+    padding-top: 17px;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+.balanceContainer .token{
+     text-align: center;
+     margin-bottom: 21px;
+  }
+.balanceContainer .title {
+    font-family: var(--font_semi_bold);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--black_color_secondary_opacity);
+  }
+.balanceContainer .balance{
+    font-family: var(--font_extra_bold);
+    font-style: normal;
+    font-weight: 800;
+    font-size: 36px;
+    line-height: 110%;
+    color: var(--black_color_secondary);
+  }
+.balanceContainer .text{
+    font-family: var(--font_bold);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 18px;
+    color: var(--black_color_secondary);
+    margin-top: 4px;
+}

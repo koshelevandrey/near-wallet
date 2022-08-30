@@ -1,0 +1,69 @@
+.transactionPageContainer{
+  width: 440px;
+  height: 491px;
+  background-color: #fff;
+  border-radius: 20px;
+}
+.transactionPageContainer .body {
+  background-image: url(../../images/bgInfo.svg);
+  background-position: center;
+  text-align: center;
+  padding-top: 32px;
+  height: 418px;
+  border-radius: 0 0 20px 20px;
+}
+.transactionPageContainer .body .icon{
+  margin: 0 auto 23px;
+}
+.transactionPageContainer .body .title{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 110%; 
+  color: #202020;
+  margin-bottom: 32px;
+}
+.transactionPageContainer .body .secondaryTitle {
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 110%;
+  text-align: center;
+  color: #202020;
+  margin-bottom: 4px;
+}
+.transactionPageContainer .body .near{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 110%;
+  color: #202020;
+  margin-bottom: 44px;
+}
+.transactionPageContainer .body .recipient{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 110%;
+  color: #9896F0;
+  margin: 0 auto 40px;
+}
+.transactionPageContainer .body .btnContinue{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #FFFFFF;
+  padding: 0px 24px;
+  height: 48px;
+  width: 121px;
+  background: #202020;
+  border-radius: 88px;
+  margin: 0 auto;
+  cursor: pointer;
+}

@@ -1,0 +1,264 @@
+.sendPageContainer{
+  width: 440px;
+  height: 465px;
+  border-radius: 20px;
+  padding-bottom: 32px;
+  background-color: var(--white_col);
+}
+.sendPageContainer .body {
+  background-image: url(../../images/bgInfo.svg);
+  background-position: center;
+  padding: 32px 60px 0 60px;
+  text-align: center;
+  height: 425px;
+  border-radius:0 0 20px 20px;
+}
+.sendPageContainer .body .title {
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 110%;
+  color: var(--black_color_secondary);
+  margin-bottom: 20px;
+}
+.sendPageContainer .body .btnSubmit {
+  background: var(--black_color_secondary);
+  border-radius: 88px;
+  width: 105px;
+  height: 48px;
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--white_col);
+  display: block;
+  margin: 0 auto 12px auto;
+  cursor: pointer;
+}
+.sendPageContainer .body .dropDownContainer {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.sendPageContainer .body .btn {
+  width: 219px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  text-align: left;
+  padding-left: 16px;
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  cursor: pointer;
+  color: #20202060;
+}
+.sendPageContainer .body .btn.bg {
+  background: rgba(0, 0, 0, 0.2);
+}
+.sendPageContainer .body .menu {
+  position: absolute;
+  bottom: 0;
+  display: none;
+}
+.sendPageContainer .dropDownContainer  .visible {
+  position: absolute;
+  background: white;
+  width: 219px;
+  z-index: 1;
+  bottom: -74px;
+  border-radius: 0 0  8px 8px;
+  background-color: var(--white_col);
+  cursor: pointer;
+}
+.sendPageContainer .dropDownContainer .visible .btnVisible {
+  width: 100%;
+  text-align: left;
+  background-color: unset;
+  border: unset;
+  display: flex;
+  justify-content: space-between;
+  height: 40px;
+  padding: 0;
+  align-items: center;
+  cursor: pointer;
+}
+.sendPageContainer .dropDownContainer .visible > div {
+  background: rgba(0, 0, 0, 0.21);
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 8px 8px;
+  padding: 0 14px 0 16px;
+}
+.sendPageContainer .body .menu > button,
+.sendPageContainer .dropDownContainer .menu > div  {
+  display: none;
+}
+.sendPageContainer .body .menu.visible{
+  display: block;
+}
+
+.sendPageContainer .body .dropDownContainer .arrow{
+  position: absolute;
+  right: 21px;
+  rotate: -90deg;
+}
+.sendPageContainer .body .dropDownContainer .balanceBox{
+  background: rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+  padding-top: 6px;
+  width: 92px;
+}
+.sendPageContainer .body .dropDownContainer .balanceBox .title {
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 0;
+  color: var(--black_color_secondary_opacity);
+}
+.sendPageContainer .body .dropDownContainer .balanceBox .value {
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--black_color_secondary);
+}
+.sendPageContainer .body .amountContainer { 
+  width: 320px;
+  height: 48px;
+  position: relative;
+  background: white;
+  margin-bottom: 8px;
+}
+.sendPageContainer .body .amountContainer .amount{
+  width: 304px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.08);
+  border: unset;
+  padding: 0 0 0 16px;
+  border-radius: 8px;
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 22px;
+  color: #202020;
+}
+.sendPageContainer .body .amountContainer .value {
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  color: #202020;
+  opacity: 0.4;
+  transform: translate(0, -50%);
+  position: absolute;
+  top: 50%;
+  right: 88px;
+}
+.sendPageContainer .body .amountContainer .amount::placeholder{
+  color: #20202060;
+}
+.sendPageContainer .body .amountContainer .amount:focus-visible{
+  border: unset;
+  outline: none;
+}
+.sendPageContainer .body .amountContainer .btnMax {
+  background: #9896F0;
+  border-radius: 6px;
+  width: 80px;
+  height: 44px;
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: var(--white_col);
+  cursor: pointer;
+}
+.sendPageContainer .to {
+  width: 304px;
+  height: 48px;
+  background: rgba(0, 0, 0, 0.08);
+  border: unset;
+  padding: 0 0 0 16px;
+  border-radius: 8px;
+}
+.sendPageContainer .toContainer {
+  width: 320px;
+  height: 48px;
+  position: relative;
+  background: white;
+  margin-bottom: 40px;
+}
+.sendPageContainer .toContainer .successIcon{
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translate(0, -50%);
+}
+.sendPageContainer .btnCancel{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  color: #20202050;
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.sendPageContainer .visibleAmount {
+  position: absolute;
+  top: 3px;
+  left: 16px;
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  color: var(--black_color_secondary_opacity);
+}
+.sendPageContainer .dropDownContainer .iconMenu > svg {
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+}
+.sendPageContainer .dropDownContainer .iconMenu {
+  display: flex;
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202020
+}
+.sendPageContainer .dropDownContainer .iconMenu .icon{
+  display: block;
+  margin-right: 4px;
+}
+.sendPageContainer .dropDownContainer .iconMenu .value {
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: right;
+  color: #202020;
+}

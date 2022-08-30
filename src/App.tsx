@@ -1,33 +1,26 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import {
+  ConfirmationPage,
+  TrasactionPage,
+  ChooseMethod, 
+  BalancePage,
+  SendPage, 
+  HomePage, 
+  Info, 
+} from './components'
+
 
 function App() {
-  const handleOnClick = () => {
-    const queryInfo = { active: true, lastFocusedWindow: true };
-
-    chrome.tabs &&
-      chrome.tabs.query(queryInfo, (tabs) => {
-        const url = tabs[0]?.url;
-
-        url && alert(`Your url: ${url}`);
-      });
-  };
-
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          <button
-            onClick={handleOnClick}
-            style={{ width: "200px", height: "40px" }}
-          >
-            Alert
-          </button>
-        </p>
-      </header>
-    </div>
+      {/* <Info/> */}
+      {/* <SendPage/> */}
+      {/* <HomePage/> */}
+      {/* <ChooseMethod/> */}
+      {/* <BalancePage/> */}
+      {/* <ConfirmationPage/> */}
+      <TrasactionPage/>
+     </div>
   );
 }
 
