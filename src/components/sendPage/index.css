@@ -273,3 +273,16 @@
   text-align: right;
   color: #202020;
 }
+.sendPageContainer  .dropDownContainer .assets {
+  font-family: var(--font_semi_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202020;
+  display: flex;
+  align-items: center;
+}
+.sendPageContainer .dropDownContainer .icon {
+  margin-right: 4px;
+}

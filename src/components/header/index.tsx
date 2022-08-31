@@ -25,7 +25,6 @@ const wallets = [
 const Header = () => {
   const [wallet, setWallet] = useState(wallets[0])
   const [dropdownVisible, setDropdownVisible] = useState(false)
-console.log(dropdownVisible);
 
     return <div className='header'>
    {!dropdownVisible ?

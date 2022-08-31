@@ -14,7 +14,8 @@ const menu = [
 
 const Info = () => {
     const [visible, setVisible] = useState(false)
-    const [assets, setAssets] = useState('Select asset ')
+    const [assets, setAssets] = useState('Select asset')
+    const [icon, setIcon] = useState(undefined || iconsObj.nearMenu)
     const [amount, setAmount] = useState(0)
     const [success, setSuccess] = useState(false)
     const [recipient, setRecipient] = useState('')
@@ -27,7 +28,7 @@ const Info = () => {
         setSuccess(true)
       }
     }
-
+  
    const menuClass = !visible ? 'menu visible' : 'visible'
     return <div className='sendPageContainer'>
     <Header/>
@@ -36,7 +37,12 @@ const Info = () => {
       <form>
         <div className='dropDownContainer'>
           {!visible ?
-          <button type='button' onClick={() => setVisible(!visible)} className={`btn ${visible ? 'bg' : ''}`}>{assets}<ArrowIcon className='arrow'/></button>
+          <button type='button' 
+            onClick={() => setVisible(!visible)} 
+            className={`btn ${visible ? 'bg' : ''} ${assets === 'Select asset' ? '' : 'assets' }`}>
+              {assets !== 'Select asset' ?  <Icon className='icon' src={icon} />  : null}
+              {assets}<ArrowIcon className='arrow'/>
+          </button>
           :
           <div className={menuClass}>
          
@@ -44,6 +50,7 @@ const Info = () => {
           <button type='button' onClick={() => setVisible(!visible)} className='btnVisible primary'>{assets}<ArrowIcon className='arrow'/></button>
             {menu?.map((el, i) => <button key={i} onClick={() => {
           setAssets(el?.title)
+          setIcon(el?.icon)
           setVisible(!visible)
         }} className='btnVisible' type='button'>
           <div className='iconMenu'>
