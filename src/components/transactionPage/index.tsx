@@ -16,7 +16,7 @@ const TrasactionPage = () => {
         <div className='secondaryTitle'>You sent</div>
         <div className='near'>0.83 NEAR</div>
         <div className ='recipient'> accomplice.poolv1.near</div>
-        <button onClick={() => goTo(BalancePage)} className='btnContinue'>Continue</button>
+        <button className='btnContinue'>Continue</button>
      </div>
     </div>
 }

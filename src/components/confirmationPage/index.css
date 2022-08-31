@@ -10,6 +10,7 @@
   padding: 32px 0 0 0;
   text-align: center;
   border-radius:0 0 20px 20px;
+  padding-bottom: 17px;
 }
 .confirmationPageContainer .body .title{
   font-family: var(--font_extra_bold);

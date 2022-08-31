@@ -53,6 +53,9 @@
 .header .settingIcon > path  {
   stroke: #20202040;
 }
+.header .lockIcon {
+  margin-right: 12px;
+}
 .header .dropdownBtn .nearIcon {
   width: 16px;
   height: 16px;
@@ -79,6 +82,7 @@
  backdrop-filter: blur(12px);
  border-radius: 20px 0 20px 0;
  padding: 12px 0 12px 18px;
+ z-index: 3;
 }
 .header .walletContainer .dropdownBtn {
   font-family: var(--font_semi_bold);
