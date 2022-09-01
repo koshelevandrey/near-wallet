@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
-import {goBack} from 'react-chrome-extension-router'
+import {goBack, goTo} from 'react-chrome-extension-router'
 import {ReactComponent as NearIcon} from '../../images/nearIcon.svg'
 import {ReactComponent as OmniLogo} from '../../images/omniLogo.svg'
 import {ReactComponent as LockIcon} from '../../images/lockIcon.svg'
 import {ReactComponent as SettingsIcon} from '../../images/settingsIcon.svg'
 import {ReactComponent as ArrowIcon} from '../../images/arrow.svg'
+import Settings from '../settingsPage'
 import './index.css'
 
 const wallets = [
@@ -38,7 +39,7 @@ const Header = () => {
         onClick={() =>  setDropdownVisible(!dropdownVisible)} 
          className='dropdownBtn'>
          <NearIcon className='nearIcon'/>
-         <div>{wallet?.title}</div>
+         <div>{wallet?.title}</div> 
          <ArrowIcon className='arrowIcon'/>
       </button>
      </div>
@@ -81,7 +82,7 @@ const Header = () => {
       <button>
         <LockIcon className='lockIcon'/>
       </button>
-      <button>
+      <button onClick={() => goTo(Settings)}>
         <SettingsIcon className='settingIcon'/>
       </button>
     </div>

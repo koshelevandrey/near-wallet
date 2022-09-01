@@ -1,0 +1,27 @@
+.footerSettings{
+    padding: 11px 0 26px 0;
+}
+.footerSettings .title {
+  font-family: var(--font_semi_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202020;
+  text-align: center;
+}
+.footerSettings .title .link {
+  color: #9896F0;
+  display: inline-block;
+  margin: 0 5px;
+}
+.footerSettings .icon > img{
+  margin: 22px auto 0;
+  display: block;
+}
+
+.footerSettings .logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
