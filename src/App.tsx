@@ -1,26 +1,12 @@
 import React from "react";
-import {
-  ConfirmationPage,
-  TrasactionPage,
-  ChooseMethod, 
-  BalancePage,
-  SendPage, 
-  HomePage, 
-  Info, 
-} from './components'
-
+import {HomePage} from './components'
+import {Router} from 'react-chrome-extension-router'
 
 function App() {
   return (
-    <div className="App">
-      {/* <Info/> */}
-      {/* <SendPage/> */}
-      {/* <HomePage/> */}
-      {/* <ChooseMethod/> */}
-      {/* <BalancePage/> */}
-      {/* <ConfirmationPage/> */}
-      <TrasactionPage/>
-     </div>
+    <Router>
+      <HomePage/>
+    </Router>
   );
 }
 

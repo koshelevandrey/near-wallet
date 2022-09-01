@@ -44,6 +44,9 @@ button {
   font-family: 'ManropeRegular';
   src: url('./fonts/Manrope-Regular.ttf');
 }
+button {
+  padding: 0;
+}
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;

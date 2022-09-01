@@ -6,6 +6,8 @@ import BalanceCard from '../balanceCard'
 import Icon from '../icon'
 import iconsObj from '../../assets/icons'
 import './index.css'
+import  SendPage  from '../sendPage'
+import { goTo } from 'react-chrome-extension-router'
 
 const BalancePage = () => {
     const [step, setStep] = useState('tokens')
@@ -136,7 +138,7 @@ const BalancePage = () => {
         :
         balanceSecondary()
         }
-        <button className={`btnSend ${!stakeVisible ? 'visible' : ''}`} type='button'><Icon src={iconsObj.arrowGroup}/><div>Send</div></button>
+        <button onClick={() => goTo(SendPage)} className={`btnSend ${!stakeVisible ? 'visible' : ''}`} type='button'><Icon src={iconsObj.arrowGroup}/><div>Send</div></button>
         <NavFooter  step={step} setStep={setStep}/>
      </div>
         <Footer /> 

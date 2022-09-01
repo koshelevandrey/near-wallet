@@ -10,6 +10,7 @@
   padding: 32px 0 0 0;
   text-align: center;
   border-radius:0 0 20px 20px;
+  padding-bottom: 17px;
 }
 .confirmationPageContainer .body .title{
   font-family: var(--font_extra_bold);
@@ -112,7 +113,7 @@
 .confirmationPageContainer .recipientContainer .title,
 .confirmationPageContainer .adddressContainer .title,
 .confirmationPageContainer .assetContainer .title{
-  font-family: var(--font_bold);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -134,6 +135,7 @@
   background: #202020;
   border-radius: 88px;
   margin: 40px auto 12px;
+  cursor: pointer;
 }
 .confirmationPageContainer .body .btnCancel {
   font-family: var(--font_bold);

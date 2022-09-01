@@ -2,8 +2,10 @@ import React from 'react'
 import Header from '../header'
 import Icon from '../icon'
 import iconsObj from '../../assets/icons'
+import TrasactionPage from '../transactionPage'
 
 import './index.css'
+import { goBack, goTo } from 'react-chrome-extension-router'
 
 const ConfirmationPage = () => {
     return <div className='confirmationPageContainer'>
@@ -43,8 +45,8 @@ const ConfirmationPage = () => {
           </div>
      </div>
      </div>
-     <button className='btnSend' type='button'>Confirm & Send</button>
-     <button className='btnCancel' type='button'>Cancel</button>
+     <button onClick={() => goTo(TrasactionPage)} className='btnSend' type='button'>Confirm & Send</button>
+     <button onClick={() => goBack()} className='btnCancel' type='button'>Cancel</button>
     </div>
     </div>
 }

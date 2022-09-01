@@ -1,5 +1,8 @@
 import React from 'react'
 import Header from '../header'
+import { goTo } from 'react-chrome-extension-router'
+import BalancePage from '../balancePage'
+
 import './index.css'
 
 const ChooseMethod = () => {
@@ -12,11 +15,11 @@ const ChooseMethod = () => {
         recover your account and access your account from other devices
      </div>
      <div className='btnContainer'>
-        <button  type='button'  className='btnChoose'>
+        <button onClick={() => {goTo(BalancePage)}}  type='button'  className='btnChoose'>
             <div className='btnTitle'>Secure Passphrase</div>
             <div className='btnText'>Generate and safely store a unique passphrase</div>
         </button>
-        <button  type='button'  className='btnChoose'>
+        <button onClick={() => {goTo(BalancePage)}}  type='button'  className='btnChoose'>
             <div className='btnTitle'>Ledger Hardware Wallet</div>
             <div className='btnText'>Secure your account with a Ledger hardware device</div>
         </button>

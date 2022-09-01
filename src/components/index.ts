@@ -1,6 +1,8 @@
 export { default as ConfirmationPage } from './confirmationPage'
 export { default as TrasactionPage } from './transactionPage'
+export { default as FooterSettings } from './footerSettings'
 export { default as ChooseMethod } from './chooseMethod'
+export { default as SettingsPage } from './settingsPage'
 export { default as BalancePage } from './balancePage'
 export { default as BalanceCard } from './balanceCard'
 export { default as NavFooter } from './navFooter'

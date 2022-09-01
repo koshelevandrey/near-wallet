@@ -1,0 +1,78 @@
+.settings{
+  position: absolute; 
+  width: 440px;
+  height: 554px;
+  background: #FFFFFF;
+  backdrop-filter: blur(12px);
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+.settingsContainer{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-top: 1px  solid #9896F050;
+  border-bottom: 1px  solid #9896F050;
+  padding: 22px 22px 55px;
+}
+
+.settings .settingsContainer .closeBtn{
+  margin-left: auto;    
+  width: 22px;
+  height: 22px;
+}
+
+.settings .settingsContainer .titleSettings{
+  font-family: var(--font_extra_bold);
+  font-style: normal;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 110%;
+  color: #202020;
+}
+
+.settings .settingsContainer .wallet{
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 14px;
+  color: #20202040;
+  margin-top: 16px;
+}
+
+.settings .settingsContainer .text{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 18px;
+  margin-top: 2px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.settings .settingsContainer .menuItembtn{
+  font-family: var(--font_bold);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 27px;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+.settings .settingsContainer .menuItembtn:last-child{
+    margin-bottom: 0;
+}
+.settings .settingsContainer .copyIcon > path {
+  stroke:   #202020
+}
+.settings .settingsContainer .copyIcon{
+  cursor: pointer;
+  margin-left: 6px;
+}
+.settings .settingsContainer .copyIcon:hover > path {
+  stroke:   #9896F0;
+}

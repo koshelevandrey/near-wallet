@@ -74,7 +74,7 @@
 }
 .chooseMethodContainer .body .btnCancel{
   margin: 0 auto;
-  font-family: 'Manrope';
+  font-family: var(--font_bold);
   font-style: normal;
   font-weight: 700;
   font-size: 16px;

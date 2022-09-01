@@ -2,8 +2,10 @@ import React, {useState} from 'react'
 import Header from '../header'
 import {ReactComponent as ArrowIcon} from '../../images/arrow.svg'
 import iconsObj from '../../assets/icons'
+import ConfirmationPage from '../confirmationPage'
 import Icon from '../icon';
 import './index.css'
+import { goTo, goBack } from 'react-chrome-extension-router';
 
 const menu = [
   {title:'TokenA', icon: iconsObj.nearMenu, value: '0.001 TKN1'  },
@@ -11,19 +13,22 @@ const menu = [
 ]
 
 const Info = () => {
-    const [step, setStep] = useState(1) 
     const [visible, setVisible] = useState(false)
-    const [assets, setAssets] = useState('Select asset ')
+    const [assets, setAssets] = useState('Select asset')
+    const [icon, setIcon] = useState(undefined || iconsObj.nearMenu)
     const [amount, setAmount] = useState(0)
     const [success, setSuccess] = useState(false)
     const [recipient, setRecipient] = useState('')
 
     const submit = () => {
+      if(success) {
+        goTo(ConfirmationPage)
+      }
       if(!!recipient  && !!amount &&  !!assets) {
         setSuccess(true)
       }
     }
-
+  
    const menuClass = !visible ? 'menu visible' : 'visible'
     return <div className='sendPageContainer'>
     <Header/>
@@ -31,21 +36,33 @@ const Info = () => {
       <div className='title'>Send</div>
       <form>
         <div className='dropDownContainer'>
-          <button type='button' onClick={() => setVisible(!visible)} className={`btn ${visible ? 'bg' : ''}`}>{assets}<ArrowIcon className='arrow'/></button>
+          {!visible ?
+          <button type='button' 
+            onClick={() => setVisible(!visible)} 
+            className={`btn ${visible ? 'bg' : ''} ${assets === 'Select asset' ? '' : 'assets' }`}>
+              {assets !== 'Select asset' ?  <Icon className='icon' src={icon} />  : null}
+              {assets}<ArrowIcon className='arrow'/>
+          </button>
+          :
           <div className={menuClass}>
-            <div>{menu?.map((el, i) => <button key={i} onClick={() => {
-            setAssets(el?.title)
-            setVisible(!visible)
-          }} className='btnVisible' type='button'>
-            <div className='iconMenu'>
-               {<Icon className='icon' src={el?.icon}/>}
-               <div>{el?.title}</div> 
-              </div>
-              <div className='value'>{el?.value}</div>
-              </button>
-            )}
-             </div>
+         
+          <div>
+          <button type='button' onClick={() => setVisible(!visible)} className='btnVisible primary'>{assets}<ArrowIcon className='arrow'/></button>
+            {menu?.map((el, i) => <button key={i} onClick={() => {
+          setAssets(el?.title)
+          setIcon(el?.icon)
+          setVisible(!visible)
+        }} className='btnVisible' type='button'>
+          <div className='iconMenu'>
+             {<Icon className='icon' src={el?.icon}/>}
+             <div>{el?.title}</div> 
+            </div>
+            <div className='value'>{el?.value}</div>
+            </button>
+          )}
+           </div>
           </div>
+          } 
           <div className='balanceBox'>
             <div className='title'>Balance</div>
             <div className='value'>0</div>
@@ -69,7 +86,7 @@ const Info = () => {
         </div>
         <button onClick={submit} type='button' className='btnSubmit'>Submit</button> 
       </form>
-      <button type='button' className='btnCancel'>Cancel</button>   
+      <button onClick={() => goBack()} type='button' className='btnCancel'>Cancel</button>   
     </div>
     </div>
 }

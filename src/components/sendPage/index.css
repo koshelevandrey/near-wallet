@@ -58,12 +58,13 @@
   line-height: 16px;
   cursor: pointer;
   color: #20202060;
+  text-decoration: unset;
 }
 .sendPageContainer .body .btn.bg {
   background: rgba(0, 0, 0, 0.2);
 }
 .sendPageContainer .body .menu {
-  position: absolute;
+  position: relative;
   bottom: 0;
   display: none;
 }
@@ -72,8 +73,7 @@
   background: white;
   width: 219px;
   z-index: 1;
-  bottom: -74px;
-  border-radius: 0 0  8px 8px;
+  border-radius: 8px;
   background-color: var(--white_col);
   cursor: pointer;
 }
@@ -90,10 +90,18 @@
   cursor: pointer;
 }
 .sendPageContainer .dropDownContainer .visible > div {
-  background: rgba(0, 0, 0, 0.21);
+  background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(12px);
-  border-radius: 0 0 8px 8px;
   padding: 0 14px 0 16px;
+  border-radius: 8px;
+}
+.sendPageContainer .dropDownContainer .primary {
+  font-family: var(--font_regular);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #20202060;
 }
 .sendPageContainer .body .menu > button,
 .sendPageContainer .dropDownContainer .menu > div  {
@@ -116,6 +124,8 @@
   position: relative;
   padding-top: 6px;
   width: 92px;
+  margin: 0 0 0 auto;
+  height: 41px;
 }
 .sendPageContainer .body .dropDownContainer .balanceBox .title {
   font-family: var(--font_regular);
@@ -156,7 +166,7 @@
   color: #202020;
 }
 .sendPageContainer .body .amountContainer .value {
-  font-family: var(--font_bold);
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -191,6 +201,7 @@
   line-height: 18px;
   color: var(--white_col);
   cursor: pointer;
+  text-decoration: unset;
 }
 .sendPageContainer .to {
   width: 304px;
@@ -242,7 +253,7 @@
 }
 .sendPageContainer .dropDownContainer .iconMenu {
   display: flex;
-  font-family: 'Manrope';
+  font-family: var(--font_semi_bold);
   font-style: normal;
   font-weight: 600;
   font-size: 12px;
@@ -261,4 +272,17 @@
   line-height: 16px;
   text-align: right;
   color: #202020;
+}
+.sendPageContainer  .dropDownContainer .assets {
+  font-family: var(--font_semi_bold);
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  color: #202020;
+  display: flex;
+  align-items: center;
+}
+.sendPageContainer .dropDownContainer .icon {
+  margin-right: 4px;
 }
