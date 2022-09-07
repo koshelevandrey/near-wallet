@@ -1,12 +1,10 @@
 import React from "react";
-import { goTo } from "react-chrome-extension-router";
 import iconsObj from "../../assets/icons";
 import Header from "../header";
 import Icon from "../icon";
-import BalancePage from "../balancePage";
 import "./index.css";
 
-const TrasactionPage = () => {
+const TransactionPage = () => {
   return (
     <div className="transactionPageContainer">
       <Header />
@@ -22,4 +20,4 @@ const TrasactionPage = () => {
   );
 };
 
-export default TrasactionPage;
+export default TransactionPage;
