@@ -3,11 +3,9 @@ import Header from "../header";
 import Icon from "../icon";
 import iconsObj from "../../assets/icons";
 import TransactionPage from "../transactionPage";
-import * as ethers from "ethers";
 
 import "./index.css";
 import { goBack, goTo } from "react-chrome-extension-router";
-import { bignumberToNumber } from "../../utils/bignumber";
 import { NEAR_TOKEN_DECIMALS_AMOUNT } from "../../consts/near";
 import { useQuery } from "../../hooks";
 import { ClipLoader } from "react-spinners";
@@ -17,10 +15,6 @@ interface Props {
   asset: string;
   amount: number;
 }
-
-const RESERVED_FOR_TRANSACTION_FEES = 0.05;
-
-//NEAR_TOKEN_DECIMALS_AMOUNT
 
 const formatNearAmount = (amount: number | string): string => {
   const value = amount.toString();
