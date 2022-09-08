@@ -331,7 +331,7 @@ const BalancePage = () => {
       <div className="body">
         <BalanceCard
           title="Available Balance"
-          walletAddress="polydev.testnet"
+          walletAddress="df4d1274f600ee"
           nearAmount={
             accountBalance?.available ? accountBalance.available.toFixed(4) : 0
           }

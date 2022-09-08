@@ -44,7 +44,7 @@
   margin-bottom: 8px;
 }
 .sendPageContainer .body .btn {
-  width: 210px;
+  width: 219px;
   height: 48px;
   background: rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(12px);
@@ -59,7 +59,6 @@
   cursor: pointer;
   color: #20202060;
   text-decoration: unset;
-  margin-left: 8px;
 }
 .sendPageContainer .body .btn.bg {
   background: rgba(0, 0, 0, 0.2);
@@ -72,8 +71,7 @@
 .sendPageContainer .dropDownContainer  .visible {
   position: absolute;
   background: white;
-  width: 210px;
-  left: 8px;
+  width: 219px;
   z-index: 1;
   border-radius: 8px;
   background-color: var(--white_col);
@@ -86,7 +84,7 @@
   border: unset;
   display: flex;
   justify-content: space-between;
-  height: 48px;
+  height: 40px;
   padding: 0;
   align-items: center;
   cursor: pointer;

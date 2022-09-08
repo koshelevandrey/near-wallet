@@ -4,13 +4,7 @@ import Header from "../header";
 import Icon from "../icon";
 import "./index.css";
 
-interface Props {
-  amount: number;
-  receiver: string;
-  hash: string;
-}
-
-const TransactionPage = ({ amount, receiver, hash }: Props) => {
+const TransactionPage = () => {
   return (
     <div className="transactionPageContainer">
       <Header />
@@ -18,15 +12,8 @@ const TransactionPage = ({ amount, receiver, hash }: Props) => {
         <Icon src={iconsObj.transactionIcon} className="icon" />
         <div className="title">Transaction Complete !</div>
         <div className="secondaryTitle">You sent</div>
-        <div className="near">{amount} NEAR</div>
-        <div className="recipient">
-          <a
-            target={"_blank"}
-            href={`https://explorer.testnet.near.org/transactions/${hash}`}
-          >
-            {receiver}
-          </a>
-        </div>
+        <div className="near">0.83 NEAR</div>
+        <div className="recipient"> accomplice.poolv1.near</div>
         <button className="btnContinue">Continue</button>
       </div>
     </div>

@@ -8,23 +8,23 @@ import "./index.css";
 import { goTo, goBack } from "react-chrome-extension-router";
 
 const menu = [
-  { title: "TokenA", icon: iconsObj.tokenA, value: "0.001 TKN1" },
-  { title: "Near", icon: iconsObj.nearMenu, value: "0.93559 NEAR" },
+  { title: "TokenA", icon: iconsObj.nearMenu, value: "0.001 TKN1" },
+  { title: "Near", icon: iconsObj.tokenA, value: "0.93559 NEAR" },
 ];
 
 const Info = () => {
   const [visible, setVisible] = useState(false);
   const [assets, setAssets] = useState("Select asset");
   const [icon, setIcon] = useState(undefined || iconsObj.nearMenu);
-  const [amount, setAmount] = useState<number>();
+  const [amount, setAmount] = useState(0);
   const [success, setSuccess] = useState(false);
-  const [receiver, setReceiver] = useState("");
+  const [recipient, setRecipient] = useState("");
 
-  const onSubmit = () => {
+  const submit = () => {
     if (success) {
-      goTo(ConfirmationPage, { receiver, amount, assets });
+      goTo(ConfirmationPage);
     }
-    if (!!receiver && !!amount && !!assets) {
+    if (!!recipient && !!amount && !!assets) {
       setSuccess(true);
     }
   };
@@ -91,8 +91,7 @@ const Info = () => {
           <div className="amountContainer">
             {!!amount && <div className="visibleAmount">Amount</div>}
             <input
-              value={amount}
-              onChange={(e) => setAmount(e?.target.valueAsNumber)}
+              onChange={(e) => setAmount(e?.target?.valueAsNumber)}
               placeholder="Amount"
               className="amount"
               type="number"
@@ -103,16 +102,15 @@ const Info = () => {
             </button>
           </div>
           <div className="toContainer">
-            {receiver !== "" && <div className="visibleAmount">To</div>}
+            {recipient !== "" && <div className="visibleAmount">To</div>}
             <input
-              onChange={(e) => setReceiver(e?.target?.value)}
-              value={receiver}
+              onChange={(e) => setRecipient(e?.target?.value)}
               className="to"
               placeholder="To"
             />
             {success && <Icon src={iconsObj.success} className="successIcon" />}
           </div>
-          <button onClick={onSubmit} type="button" className="btnSubmit">
+          <button onClick={submit} type="button" className="btnSubmit">
             Submit
           </button>
         </form>

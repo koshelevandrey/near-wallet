@@ -23,7 +23,7 @@ const Info = () => {
       <div className="body">
         <BalanceCard
           title="Available Balance"
-          walletAddress="polydev.testnet"
+          walletAddress="df4d1274f600ee"
           nearAmount={0.93245}
           usdAmount={6.9208}
         />
