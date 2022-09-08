@@ -23,7 +23,6 @@ const TransactionPage = ({ amount, receiver, hash }: Props) => {
           <a
             target={"_blank"}
             href={`https://explorer.testnet.near.org/transactions/${hash}`}
-            rel="noreferrer"
           >
             {receiver}
           </a>
