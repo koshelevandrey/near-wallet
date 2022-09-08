@@ -112,7 +112,7 @@ const BalancePage = () => {
           console.error("[GetAccountBalance]:", error);
         });
     }
-  }, [account?.accountId]);
+  }, [account?.accountId, execute]);
 
   useEffect(() => {
     getNearToUSDRatio()
@@ -331,7 +331,7 @@ const BalancePage = () => {
       <div className="body">
         <BalanceCard
           title="Available Balance"
-          walletAddress="df4d1274f600ee"
+          walletAddress="polydev.testnet"
           nearAmount={
             accountBalance?.available ? accountBalance.available.toFixed(4) : 0
           }

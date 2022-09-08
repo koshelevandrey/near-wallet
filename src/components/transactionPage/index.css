@@ -52,6 +52,12 @@
   color: #9896F0;
   margin: 0 auto 40px;
 }
+
+.transactionPageContainer .body .recipient a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .transactionPageContainer .body .btnContinue{
   font-family: var(--font_bold);
   font-style: normal;
