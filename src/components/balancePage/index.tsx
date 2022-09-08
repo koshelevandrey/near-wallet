@@ -20,6 +20,8 @@ import { bignumberToNumber } from "../../utils/bignumber";
 import { ethers } from "ethers";
 import { NEAR_TOKEN_DECIMALS_AMOUNT } from "../../consts/near";
 
+const RESERVED_FOR_TRANSACTION_FEES = 0.05;
+
 const ACCOUNT_BALANCE_METHOD_NAME = "getAccountBalance";
 
 interface AccountBalance {
@@ -82,20 +84,21 @@ const BalancePage = () => {
           const data = balanceData?.data;
           if (data) {
             setAccountBalance({
-              available: bignumberToNumber(
-                ethers.BigNumber.from(data.available),
-                NEAR_TOKEN_DECIMALS_AMOUNT
-              ),
+              available:
+                bignumberToNumber(
+                  ethers.BigNumber.from(data?.available),
+                  NEAR_TOKEN_DECIMALS_AMOUNT
+                ) - RESERVED_FOR_TRANSACTION_FEES,
               staked: bignumberToNumber(
-                ethers.BigNumber.from(data.staked),
+                ethers.BigNumber.from(data?.staked),
                 NEAR_TOKEN_DECIMALS_AMOUNT
               ),
               stateStaked: bignumberToNumber(
-                ethers.BigNumber.from(data.stateStaked),
+                ethers.BigNumber.from(data?.stateStaked),
                 NEAR_TOKEN_DECIMALS_AMOUNT
               ),
               total: bignumberToNumber(
-                ethers.BigNumber.from(data.total),
+                ethers.BigNumber.from(data?.total),
                 NEAR_TOKEN_DECIMALS_AMOUNT
               ),
             });
@@ -272,9 +275,20 @@ const BalancePage = () => {
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
-              <div className="value">0.12 NEAR</div>
+              <div className="value">
+                {accountBalance?.stateStaked
+                  ? accountBalance.stateStaked.toFixed(5)
+                  : 0}{" "}
+                NEAR
+              </div>
             </div>
-            <div className="valueBalance">≈ $8.9208 USD</div>
+            <div className="valueBalance">
+              ≈ $
+              {accountBalance?.stateStaked && nearToUsdRatio
+                ? (accountBalance.stateStaked * nearToUsdRatio).toFixed(2)
+                : 0}{" "}
+              USD
+            </div>
           </div>
         </button>
         <button
@@ -296,9 +310,15 @@ const BalancePage = () => {
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
-              <div className="value">0.93245 NEAR</div>
+              <div className="value">{RESERVED_FOR_TRANSACTION_FEES} NEAR</div>
             </div>
-            <div className="valueBalance">≈ $0.3302 USD</div>
+            <div className="valueBalance">
+              ≈ $
+              {nearToUsdRatio
+                ? (RESERVED_FOR_TRANSACTION_FEES * nearToUsdRatio).toFixed(2)
+                : 0}{" "}
+              USD
+            </div>
           </div>
         </button>
       </div>
