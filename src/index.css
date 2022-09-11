@@ -8,6 +8,13 @@
   --font_extra_bold: 'ManropeExtraBold';
   --font_regular: 'ManropeRegular';
 }
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
 body {
   background-color: grey;
   margin: 0;
