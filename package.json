@@ -38,6 +38,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
+    "build:ext": "yarn build && crx3 build",
     "prettier": "npx prettier --write src/**/*.ts{,x}",
     "lint": "tsc --noEmit && eslint src/**/*.ts{,x}",
     "lint:fix": "tsc --noEmit && eslint src/**/*.ts{,x} --fix",
@@ -68,6 +69,7 @@
     "@types/chrome": "^0.0.193",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
+    "crx3": "^1.1.3",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-jest": "^26.8.2",
