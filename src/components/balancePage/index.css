@@ -1,6 +1,5 @@
 .balancePageContainer{
   width: 440px;
-  height: 622px;
   background-color: var(--white_col);
 }
 .balancePageContainer .body {
