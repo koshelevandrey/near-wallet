@@ -8,15 +8,15 @@ import { createNewWallet } from "../../utils/wallet";
 import { encryptPrivateKeyWithPassword } from "../../utils/encryption";
 import HomePage from "../homePage";
 import { SessionStorage } from "../../services/chrome/sessionStorage";
-import { useAccount } from "../../hooks/useAccount";
 import { RecoverWithPassphrasePage } from "../recoverWithPassphrasePage";
 import { openTab } from "../../utils/router";
 import LedgerConnect from "../ledger-connect";
+import { useAuth } from "../../hooks";
 
 const ChooseMethod = () => {
   const [localStorage] = useState<LocalStorage>(new LocalStorage());
   const [sessionStorage] = useState<SessionStorage>(new SessionStorage());
-  const account = useAccount();
+  const { currentAccount: account, addAccount } = useAuth();
   const [isCreatingAccount, setIsCreatingAccount] = useState<boolean>(false);
 
   const handleCreateWithSecurePassphrase = async () => {
@@ -48,12 +48,16 @@ const ChooseMethod = () => {
         privateKey
       );
 
-      await localStorage.addAccount({
+      //TODO handle adding already imported account
+      await addAccount({ name, accountId, encryptedPrivateKey, tokens: [] });
+
+      /*       await localStorage.addAccount({
         name,
         accountId,
         encryptedPrivateKey,
         tokens: [],
-      });
+      }); */
+
       goTo(BalancePage);
     } catch (error) {
       console.error("[HandleCreateWithSecurePassphrase]:", error);
