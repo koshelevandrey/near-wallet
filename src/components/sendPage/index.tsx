@@ -1,121 +1,192 @@
 import React, { useState } from "react";
 import Header from "../header";
-import { ReactComponent as ArrowIcon } from "../../images/arrow.svg";
 import iconsObj from "../../assets/icons";
 import ConfirmationPage from "../confirmationPage";
 import Icon from "../icon";
 import "./index.css";
 import { goTo, goBack } from "react-chrome-extension-router";
+import { Formik, Form, Field, FormikProps, FieldProps } from "formik";
+import { useAuth } from "../../hooks";
+import { Token } from "../../services/chrome/localStorage";
+import Select from "react-select";
+import { NEAR_TOKEN } from "../../consts/near";
 
-const menu = [
-  { title: "TokenA", icon: iconsObj.tokenA, value: "0.001 TKN1" },
-  { title: "Near", icon: iconsObj.nearMenu, value: "0.93559 NEAR" },
-];
+interface SendProps {
+  token: Token | undefined;
+  amount: number | undefined;
+  receiver: string | undefined;
+}
+
+type FormInstance = FormikProps<SendProps>;
 
 const Info = () => {
-  const [visible, setVisible] = useState(false);
-  const [assets, setAssets] = useState("Select asset");
-  const [icon, setIcon] = useState(undefined || iconsObj.nearMenu);
-  const [amount, setAmount] = useState<number>();
-  const [success, setSuccess] = useState(false);
-  const [receiver, setReceiver] = useState("");
+  const { currentAccount } = useAuth();
+  const [receiverValidated, setReceiverValidated] = useState<boolean>();
+  const [usdValue, setUsdValue] = useState<number>();
 
-  const onSubmit = () => {
-    if (success) {
-      goTo(ConfirmationPage, { receiver, amount, assets });
+  const onSubmit = (values: SendProps) => {
+    const { receiver, amount, token } = values;
+    if (receiverValidated) {
+      goTo(ConfirmationPage, { receiver, amount, token: token });
     }
-    if (!!receiver && !!amount && !!assets) {
-      setSuccess(true);
+    if (!receiverValidated) {
+      setReceiverValidated(true);
     }
   };
 
-  const menuClass = !visible ? "menu visible" : "visible";
+  const getSelectOptions = (
+    assets: Token[]
+  ): { label: React.ReactElement; value: Token }[] => {
+    const nearToken = {
+      value: NEAR_TOKEN,
+      label: (
+        <div className="container">
+          <div className="token">
+            <img src={NEAR_TOKEN.icon} alt="nearToken" />
+            <span>Near</span>
+          </div>
+          <div className="amount">000</div>
+        </div>
+      ),
+    };
+    return [
+      nearToken,
+      ...assets.map((token) => ({
+        value: token,
+        label: (
+          <div className="container">
+            <div className="token">
+              <img src={token.icon} alt={token.name} />
+              <span>{token.name}</span>
+            </div>
+            <div className="amount">100 {token.symbol}</div>
+          </div>
+        ),
+      })),
+    ];
+  };
+
+  const handleSelectToken = (formik: FormInstance, value: Token) => {
+    formik.setFieldValue("token", value);
+  };
+
+  //TODO token usdt ratio
+  const handleAmountChange = (token: string, value: number) => {
+    console.log("token", token);
+    setUsdValue(value * 6.9208 || undefined);
+  };
+
+  const handleSetMaxAmount = (formik: FormInstance) => {
+    //TODO calculate max amount here
+    const maxAmount = 999;
+    formik.setFieldValue("amount", maxAmount);
+    handleAmountChange(formik.getFieldProps("token").value, maxAmount);
+  };
+
+  const customStyles = {
+    option: () => ({}),
+    control: (provided: any, state: any) => {
+      return {
+        background: state.menuIsOpen
+          ? "rgba(0, 0, 0, 0.2)"
+          : "rgba(0, 0, 0, 0.08)",
+        borderBottomLeftRadius: state.menuIsOpen ? 0 : "",
+        borderBottomRightRadius: state.menuIsOpen ? 0 : "",
+      };
+    },
+  };
+
   return (
     <div className="sendPageContainer">
       <Header />
+
       <div className="body">
         <div className="title">Send</div>
-        <form>
-          <div className="dropDownContainer">
-            {!visible ? (
-              <button
-                type="button"
-                onClick={() => setVisible(!visible)}
-                className={`btn ${visible ? "bg" : ""} ${
-                  assets === "Select asset" ? "" : "assets"
-                }`}
-              >
-                {assets !== "Select asset" ? (
-                  <Icon className="icon" src={icon} />
-                ) : null}
-                {assets}
-                <ArrowIcon className="arrow" />
-              </button>
-            ) : (
-              <div className={menuClass}>
-                <div>
-                  <button
-                    type="button"
-                    onClick={() => setVisible(!visible)}
-                    className="btnVisible primary"
-                  >
-                    {assets}
-                    <ArrowIcon className="arrow" />
-                  </button>
-                  {menu?.map((el, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setAssets(el?.title);
-                        setIcon(el?.icon);
-                        setVisible(!visible);
-                      }}
-                      className="btnVisible"
-                      type="button"
-                    >
-                      <div className="iconMenu">
-                        {<Icon className="icon" src={el?.icon} />}
-                        <div>{el?.title}</div>
-                      </div>
-                      <div className="value">{el?.value}</div>
-                    </button>
-                  ))}
+        <Formik<SendProps>
+          initialValues={{
+            token: undefined,
+            amount: undefined,
+            receiver: undefined,
+          }}
+          onSubmit={onSubmit}
+        >
+          {(props: FormikProps<SendProps>) => (
+            <Form>
+              <div className="dropDownContainer">
+                <Select
+                  autoFocus={true}
+                  placeholder="Select asset"
+                  className="react-select-container"
+                  classNamePrefix={"react-select"}
+                  options={getSelectOptions(currentAccount?.tokens!)}
+                  onChange={(selectValue) =>
+                    handleSelectToken(props, selectValue?.value!)
+                  }
+                  styles={customStyles}
+                />
+                <div className="balanceBox">
+                  <div className="title">Balance</div>
+                  <div className="value">0</div>
                 </div>
               </div>
-            )}
-            <div className="balanceBox">
-              <div className="title">Balance</div>
-              <div className="value">0</div>
-            </div>
-          </div>
-          <div className="amountContainer">
-            {!!amount && <div className="visibleAmount">Amount</div>}
-            <input
-              value={amount}
-              onChange={(e) => setAmount(e?.target.valueAsNumber)}
-              placeholder="Amount"
-              className="amount"
-              type="number"
-            />
-            {success && <span className="value">≈ $6.9208 USD</span>}
-            <button disabled type="button" className="btnMax">
-              Max
-            </button>
-          </div>
-          <div className="toContainer">
-            {receiver !== "" && <div className="visibleAmount">To</div>}
-            <input
-              onChange={(e) => setReceiver(e?.target?.value)}
-              value={receiver}
-              className="to"
-              placeholder="To"
-            />
-            {success && <Icon src={iconsObj.success} className="successIcon" />}
-          </div>
-          <button onClick={onSubmit} type="button" className="btnSubmit">
-            Submit
-          </button>
-        </form>
+              <div className="amountContainer">
+                <Field name="amount" type="number">
+                  {({ field }: FieldProps) => (
+                    <>
+                      {field.value && (
+                        <div className="visibleAmount">Amount</div>
+                      )}
+                      <input
+                        {...field}
+                        disabled={!props.getFieldProps("token").value}
+                        onChange={(event) => {
+                          field.onChange(event);
+                          handleAmountChange(
+                            props.getFieldProps("token").value,
+                            Number(event.target.value)
+                          );
+                        }}
+                        placeholder="Amount"
+                        className="amount"
+                        type="number"
+                      />
+                    </>
+                  )}
+                </Field>
+                {usdValue && <span className="value">≈ ${usdValue} USD</span>}
+                <button
+                  className="btnMax"
+                  type="button"
+                  onClick={() => handleSetMaxAmount(props)}
+                  disabled={!props.getFieldProps("token").value}
+                >
+                  Max
+                </button>
+              </div>
+              <div className="toContainer">
+                <Field name="receiver">
+                  {({ field }: FieldProps) => {
+                    return (
+                      <>
+                        {field.value && <div className="visibleAmount">To</div>}
+                        <input {...field} className="to" placeholder="To" />
+                        {receiverValidated && (
+                          <Icon
+                            src={iconsObj.success}
+                            className="successIcon"
+                          />
+                        )}
+                      </>
+                    );
+                  }}
+                </Field>
+              </div>
+              <button type="submit" className="btnSubmit">
+                Submit
+              </button>
+            </Form>
+          )}
+        </Formik>
         <button onClick={() => goBack()} type="button" className="btnCancel">
           Cancel
         </button>
