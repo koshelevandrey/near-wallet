@@ -21,7 +21,10 @@ const ConfirmationPage = ({ amount, token, receiver }: Props) => {
   const { execute, loading } = useSendTransaction(account?.accountId!);
 
   const onSubmit = async () => {
-    const { data, error } = await execute({ receiverId: "", amount: amount });
+    const { data, error } = await execute({
+      receiverId: receiver,
+      amount: amount,
+    });
 
     if (data) {
       goTo(TransactionPage, {
