@@ -2,6 +2,8 @@ import { PolywrapClientConfig } from "@polywrap/client-js";
 import { nearPlugin } from "@cidt/near-plugin-js";
 import { keyStores, KeyPair } from "near-api-js";
 import { AuthState } from "../provider/AuthProvider";
+import { getNearConnectionConfig } from "./near";
+import { InvokeResult } from "@polywrap/core-js";
 
 export interface AuthConfig extends AuthState {}
 
@@ -33,16 +35,29 @@ export function getPolywrapConfig(
     plugins: [
       {
         uri: "wrap://ens/nearPlugin.polywrap.eth",
-        plugin: nearPlugin({
-          headers: {},
-          keyStore: keyStore,
-          masterAccount: selectedAccount?.accountId,
-          networkId: networkId,
-          nodeUrl: `https://rpc.${networkId}.near.org`,
-          walletUrl: `https://wallet.${networkId}.near.org`,
-          helperUrl: `https://helper.${networkId}.near.org`,
-        }),
+        plugin: nearPlugin(
+          getNearConnectionConfig(networkId, keyStore, selectedAccount)
+        ),
       },
     ],
   };
+}
+
+export async function fetchWithViewFunction(
+  args: any,
+  viewFunctionExecute: (
+    args?: Record<string, unknown> | Uint8Array
+  ) => Promise<InvokeResult>
+) {
+  try {
+    const result = await viewFunctionExecute(args);
+    const viewFunctionResult = result?.data;
+    const fnResult = JSON.parse(viewFunctionResult as any).result;
+    const parsedResult = new TextDecoder().decode(
+      Uint8Array.from(fnResult).buffer
+    );
+    return JSON.parse(parsedResult);
+  } catch {
+    return null;
+  }
 }

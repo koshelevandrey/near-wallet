@@ -1,10 +1,17 @@
-.nftListContainer {
-    font-family: var(--font_semi_bold);
-    font-style: normal;
-    font-weight: 600;
+.nftCollectionsContainer {
+    font-family: var(--font_manrope);
     font-size: 12px;
     line-height: 16px;
-    color: #20202040;
+    color: var(--black_color_secondary);
+    max-width: 440px;
+    margin: 0 auto;
+    background-color: white;
+    padding-bottom: 20px;
+}
+
+.nftCollectionsContainer .noCollections {
+    font-weight: 600;
+    color: var(--black_color_secondary_opacity);
     text-align: center;
     padding: 20px;
 }

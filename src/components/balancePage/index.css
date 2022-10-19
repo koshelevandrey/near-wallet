@@ -51,6 +51,7 @@
 .balancePageContainer .body .valueContainer{
   display: flex;
   align-items: center;
+  justify-content: flex-end;
 }
 .balancePageContainer .body .balanceMenu .valueContainer,
 .balancePageContainer .body .balanceMenu .dropdownStake {
@@ -146,4 +147,9 @@
   line-height: 16px;
   text-align: right;
   color: #20202040;
+}
+
+.footerLoadingContainer {
+  max-width: 200px;
+  margin: 0 auto;
 }

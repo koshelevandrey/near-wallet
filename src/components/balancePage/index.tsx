@@ -7,22 +7,61 @@ import iconsObj from "../../assets/icons";
 import "./index.css";
 import SendPage from "../sendPage";
 import { goTo } from "react-chrome-extension-router";
-import { WalletAccount } from "../../services/chrome/localStorage";
+import { AccountWithPrivateKey } from "../../services/chrome/localStorage";
 import { useAuth, useQuery } from "../../hooks";
 import { getNearToUSDRatio } from "../../services/coingecko/api";
-import { bignumberToNumber } from "../../utils/bignumber";
-import { ethers } from "ethers";
 import { NEAR_TOKEN } from "../../consts/near";
-import { NftList } from "../nftList";
+import { NftCollectionsList } from "../nftList";
 import { TokenAmountData, TokenList } from "../tokenList";
 import { fetchTokenBalance, TokenMetadata } from "../../utils/fungibleTokens";
 import { VIEW_FUNCTION_METHOD_NAME } from "../../consts/wrapper";
+import { useStakingData } from "../../hooks/useStakingData";
+import { parseNearTokenAmount } from "../../utils/near";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import { useAccountNftCollections } from "../../hooks/useAccountNftCollections";
+import { Loading } from "../animations/loading";
 
 const RESERVED_FOR_TRANSACTION_FEES = 0.05;
 
-const ACCOUNT_BALANCE_METHOD_NAME = "getAccountBalance";
+export const ACCOUNT_BALANCE_METHOD_NAME = "getAccountBalance";
 
-interface AccountBalance {
+const formatTokenAmount = (
+  amount: number | null | undefined,
+  fractionDigits: number = 5
+) => {
+  if (!amount) return 0;
+  return Number(amount.toFixed(fractionDigits));
+};
+
+const formatUSDAmount = (
+  amount: number | null | undefined,
+  fractionDigits: number = 2
+) => {
+  if (!amount) return 0;
+  return Number(amount.toFixed(fractionDigits));
+};
+
+const wrapValueElementWithSkeletonLoading = (
+  value: any,
+  element: React.ReactElement
+) => {
+  if (typeof value === "number") {
+    return element;
+  } else {
+    return (
+      <Skeleton
+        count={1}
+        width={100}
+        height={16}
+        baseColor="#d9d9e5"
+        highlightColor="#FFFFFF77"
+      />
+    );
+  }
+};
+
+export interface AccountBalance {
   available: number;
   staked: number;
   stateStaked: number;
@@ -30,21 +69,12 @@ interface AccountBalance {
 }
 
 const BalancePage = () => {
-  const [step, setStep] = useState("tokens");
-  const [totalBalanceVisible, setTotalBalanceVisible] = useState(true);
-  const [totalBalanceValue, setTotalBalanceValue] = useState({
-    name: "Total balance",
-    value: "0.93245 NEAR",
-    balance: "",
-  });
-  const [stakeVisible, setStakeVisible] = useState(true);
-  const [stakeValue, setStakeValue] = useState({
-    name: "Staked",
-    value: "0 NEAR",
-    balance: "",
-  });
+  const [footerTab, setFooterTab] = useState("tokens");
+  const [isBalanceDropdownVisible, setIsBalanceDropdownVisible] =
+    useState(true);
+  const [isStakeDropdownVisible, setIsStakeDropdownVisible] = useState(true);
 
-  const [execute, { loading: isLoadingAccountBalance }] =
+  const [accountBalanceQueryExecute, { loading: isLoadingAccountBalance }] =
     useQuery<AccountBalance>(ACCOUNT_BALANCE_METHOD_NAME);
   const [viewFunctionExecute] = useQuery<TokenMetadata>(
     VIEW_FUNCTION_METHOD_NAME
@@ -59,9 +89,18 @@ const BalancePage = () => {
 
   const [tokenList, setTokenList] = useState<TokenAmountData[] | null>(null);
 
+  const {
+    totalStaked,
+    totalPending: totalStakedPending,
+    totalAvailable: totalStakedAvailable,
+  } = useStakingData(account?.accountId);
+
+  const nftCollections = useAccountNftCollections(account?.accountId);
+
   useEffect(() => {
+    setAccountBalance(null);
     if (account?.accountId) {
-      execute({ accountId: account?.accountId })
+      accountBalanceQueryExecute({ accountId: account?.accountId })
         .then((balanceData) => {
           if (balanceData?.error) {
             console.error("[GetAccountBalanceBalanceData]:", balanceData.error);
@@ -70,22 +109,11 @@ const BalancePage = () => {
           if (data) {
             setAccountBalance({
               available:
-                bignumberToNumber(
-                  ethers.BigNumber.from(data?.available),
-                  NEAR_TOKEN.decimals
-                ) - RESERVED_FOR_TRANSACTION_FEES,
-              staked: bignumberToNumber(
-                ethers.BigNumber.from(data?.staked),
-                NEAR_TOKEN.decimals
-              ),
-              stateStaked: bignumberToNumber(
-                ethers.BigNumber.from(data?.stateStaked),
-                NEAR_TOKEN.decimals
-              ),
-              total: bignumberToNumber(
-                ethers.BigNumber.from(data?.total),
-                NEAR_TOKEN.decimals
-              ),
+                parseNearTokenAmount(data?.available) -
+                RESERVED_FOR_TRANSACTION_FEES,
+              staked: parseNearTokenAmount(data?.staked),
+              stateStaked: parseNearTokenAmount(data?.stateStaked),
+              total: parseNearTokenAmount(data?.total),
             });
           } else {
             console.error(
@@ -112,10 +140,12 @@ const BalancePage = () => {
 
   useEffect(() => {
     const formTokenList = async (
-      account: any | WalletAccount,
+      account: any | AccountWithPrivateKey,
       accountBalance: AccountBalance,
       nearToUsdRatio: number
     ) => {
+      setTokenList(null);
+
       const newTokenList: TokenAmountData[] = [];
 
       const nearTokenAmountData: TokenAmountData = {
@@ -145,6 +175,8 @@ const BalancePage = () => {
 
     if (account && accountBalance && nearToUsdRatio) {
       formTokenList(account, accountBalance, nearToUsdRatio);
+    } else {
+      setTokenList([]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, accountBalance, nearToUsdRatio]);
@@ -154,13 +186,8 @@ const BalancePage = () => {
       <div className="dropdownStake">
         <button
           onClick={() => {
-            setStakeValue({
-              name: "Staked",
-              value: "0 NEAR",
-              balance: "= $0 USD",
-            });
-            setStakeVisible(!stakeVisible);
-            setTotalBalanceVisible(true);
+            setIsStakeDropdownVisible(!isStakeDropdownVisible);
+            setIsBalanceDropdownVisible(true);
           }}
           className="btn"
           type="button"
@@ -173,14 +200,13 @@ const BalancePage = () => {
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
               <div className="value">
-                {accountBalance?.staked ? accountBalance.staked.toFixed(5) : 0}{" "}
-                NEAR
+                {totalStaked ? formatTokenAmount(totalStaked) : 0} NEAR
               </div>
             </div>
             <div className="valueBalance">
               ≈ $
-              {accountBalance?.staked && nearToUsdRatio
-                ? (accountBalance.staked * nearToUsdRatio).toFixed(5)
+              {totalStaked && nearToUsdRatio
+                ? formatUSDAmount(totalStaked * nearToUsdRatio)
                 : 0}{" "}
               USD
             </div>
@@ -188,50 +214,60 @@ const BalancePage = () => {
         </button>
         <button
           onClick={() => {
-            setStakeValue({
-              name: "Pending release",
-              value: "0 NEAR",
-              balance: "≈ $7.9872 USD",
-            });
-            setStakeVisible(!stakeVisible);
-            setTotalBalanceVisible(true);
+            setIsStakeDropdownVisible(!isStakeDropdownVisible);
+            setIsBalanceDropdownVisible(true);
           }}
           type="button"
           className="btn"
         >
           <div className="name">
-            <div>Pending release </div>
+            <div>Pending release</div>
           </div>
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
-              <div className="value">0 NEAR</div>
+              <div className="value">
+                {totalStakedPending ? formatTokenAmount(totalStakedPending) : 0}{" "}
+                NEAR
+              </div>
             </div>
-            <div className="valueBalance">≈ $0 USD</div>
+            <div className="valueBalance">
+              ≈ $
+              {totalStakedPending && nearToUsdRatio
+                ? formatUSDAmount(totalStakedPending * nearToUsdRatio)
+                : 0}{" "}
+              USD
+            </div>
           </div>
         </button>
         <button
           onClick={() => {
-            setStakeValue({
-              name: "Reserved for transactions",
-              value: "0 NEAR",
-              balance: "≈ $7.9872 USD",
-            });
-            setStakeVisible(!stakeVisible);
-            setTotalBalanceVisible(true);
+            setIsStakeDropdownVisible(!isStakeDropdownVisible);
+            setIsBalanceDropdownVisible(true);
           }}
           type="button"
           className="btn"
         >
           <div className="name">
-            <div>Reserved for transactions</div>
+            <div>Available for withdrawal</div>
           </div>
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
-              <div className="value">0 NEAR</div>
+              <div className="value">
+                {totalStakedAvailable
+                  ? formatTokenAmount(totalStakedAvailable)
+                  : 0}{" "}
+                NEAR
+              </div>
             </div>
-            <div className="valueBalance">≈ $0 USD</div>
+            <div className="valueBalance">
+              ≈ $
+              {totalStakedAvailable && nearToUsdRatio
+                ? formatUSDAmount(totalStakedAvailable * nearToUsdRatio)
+                : 0}{" "}
+              USD
+            </div>
           </div>
         </button>
       </div>
@@ -243,33 +279,30 @@ const BalancePage = () => {
       <div className="balanceMenu">
         <button
           onClick={() => {
-            setTotalBalanceValue({
-              name: "Total balance",
-              value: "0.93245 NEA",
-              balance: "≈ $7.9872 USD",
-            });
-            setTotalBalanceVisible(!totalBalanceVisible);
-            setStakeVisible(true);
+            setIsBalanceDropdownVisible(!isBalanceDropdownVisible);
+            setIsStakeDropdownVisible(true);
           }}
           type="button"
           className="btn"
         >
           <div className="name">
-            <div>Total balance </div>
+            <div>Total balance</div>
             <Icon className="arrow" src={iconsObj.arrowGrey} />
           </div>
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
               <div className="value">
-                {accountBalance?.total ? accountBalance.total.toFixed(5) : 0}{" "}
+                {accountBalance?.total
+                  ? formatTokenAmount(accountBalance.total)
+                  : 0}{" "}
                 NEAR
               </div>
             </div>
             <div className="valueBalance">
               ≈ $
               {accountBalance?.total && nearToUsdRatio
-                ? (accountBalance.total * nearToUsdRatio).toFixed(5)
+                ? formatUSDAmount(accountBalance.total * nearToUsdRatio, 5)
                 : 0}{" "}
               USD
             </div>
@@ -277,26 +310,19 @@ const BalancePage = () => {
         </button>
         <button
           onClick={() => {
-            setTotalBalanceValue({
-              name: "Reserved for storage",
-              value: "0.12 NEAR",
-              balance: "≈ $8.9208 USD",
-            });
-            setTotalBalanceVisible(!totalBalanceVisible);
-            setStakeVisible(true);
+            setIsBalanceDropdownVisible(!isBalanceDropdownVisible);
+            setIsStakeDropdownVisible(true);
           }}
           type="button"
           className="btn"
         >
-          <div className="name">
-            Reserved for storage<div></div>
-          </div>
+          <div className="name">Reserved for storage</div>
           <div>
             <div className="valueContainer">
               <Icon src={iconsObj.nearMenu} />
               <div className="value">
                 {accountBalance?.stateStaked
-                  ? accountBalance.stateStaked.toFixed(5)
+                  ? formatTokenAmount(accountBalance.stateStaked)
                   : 0}{" "}
                 NEAR
               </div>
@@ -304,7 +330,7 @@ const BalancePage = () => {
             <div className="valueBalance">
               ≈ $
               {accountBalance?.stateStaked && nearToUsdRatio
-                ? (accountBalance.stateStaked * nearToUsdRatio).toFixed(2)
+                ? formatUSDAmount(accountBalance.stateStaked * nearToUsdRatio)
                 : 0}{" "}
               USD
             </div>
@@ -312,13 +338,8 @@ const BalancePage = () => {
         </button>
         <button
           onClick={() => {
-            setTotalBalanceValue({
-              name: "Reserved for transactions ",
-              value: "0.93245 NEA",
-              balance: "≈ $0.3302 USD",
-            });
-            setTotalBalanceVisible(!totalBalanceVisible);
-            setStakeVisible(true);
+            setIsBalanceDropdownVisible(!isBalanceDropdownVisible);
+            setIsStakeDropdownVisible(true);
           }}
           type="button"
           className="btn"
@@ -334,7 +355,9 @@ const BalancePage = () => {
             <div className="valueBalance">
               ≈ $
               {nearToUsdRatio
-                ? (RESERVED_FOR_TRANSACTION_FEES * nearToUsdRatio).toFixed(2)
+                ? formatUSDAmount(
+                    RESERVED_FOR_TRANSACTION_FEES * nearToUsdRatio
+                  )
                 : 0}{" "}
               USD
             </div>
@@ -352,90 +375,97 @@ const BalancePage = () => {
           title="Available Balance"
           walletAddress={account?.accountId || ""}
           nearAmount={
-            accountBalance?.available ? accountBalance.available.toFixed(4) : 0
+            accountBalance?.available
+              ? formatTokenAmount(accountBalance.available, 4)
+              : 0
           }
           usdAmount={
             accountBalance?.available
-              ? (accountBalance.available * nearToUsdRatio).toFixed(2)
+              ? formatUSDAmount(accountBalance.available * nearToUsdRatio)
               : 0
           }
           isLoading={isLoadingAccountBalance || !account || !accountBalance}
         />
-        {totalBalanceVisible ? (
+        {isBalanceDropdownVisible ? (
           <button
             onClick={() => {
-              setTotalBalanceVisible(!totalBalanceVisible);
-              setTotalBalanceValue({
-                name: "Total balance",
-                value: "0.93245 NEAR",
-                balance: "≈ $7.9872 USD",
-              });
+              setIsBalanceDropdownVisible(!isBalanceDropdownVisible);
             }}
             type="button"
             className="btnBalance"
           >
             <div className="name">
-              <div>{totalBalanceValue.name}</div>
+              <div>Total balance</div>
               <Icon className="arrow" src={iconsObj.arrowGrey} />
             </div>
             <div className="valueContainer">
-              <Icon src={iconsObj.nearMenu} />
-              <div className="value">
-                {accountBalance?.total ? accountBalance.total.toFixed(5) : 0}{" "}
-                NEAR
-              </div>
+              {wrapValueElementWithSkeletonLoading(
+                accountBalance?.total,
+                <>
+                  <Icon src={iconsObj.nearMenu} />
+                  <div className="value">
+                    {formatTokenAmount(accountBalance?.total)} NEAR
+                  </div>{" "}
+                </>
+              )}
             </div>
-            {!!totalBalanceValue.balance && !totalBalanceVisible && (
-              <div className="valueBalance">{totalBalanceValue.balance}</div>
-            )}
           </button>
         ) : (
           totalBalance()
         )}
-        {stakeVisible ? (
+        {isStakeDropdownVisible ? (
           <button
             onClick={() => {
-              setStakeVisible(!stakeVisible);
-              setStakeValue({
-                name: "Staked",
-                value: "0 NEAR",
-                balance: "$0 USD",
-              });
+              setIsStakeDropdownVisible(!isStakeDropdownVisible);
             }}
             type="button"
             className={`btnBalanceSecondary ${
-              !totalBalanceVisible ? "visible" : ""
+              !isBalanceDropdownVisible ? "visible" : ""
             }`}
           >
             <div className="name">
-              <div>{stakeValue.name}</div>
+              <div>Staked</div>
               <Icon className="arrow" src={iconsObj.arrowGrey} />
             </div>
             <div className="valueContainer">
-              <Icon src={iconsObj.nearMenu} />
-              <div className="value">{stakeValue.value}</div>
+              {wrapValueElementWithSkeletonLoading(
+                totalStaked,
+                <>
+                  <Icon src={iconsObj.nearMenu} />
+                  <div className="value">
+                    {totalStaked ? formatTokenAmount(totalStaked) : 0} NEAR
+                  </div>
+                </>
+              )}
             </div>
-            {!!stakeValue?.balance && !stakeVisible && (
-              <div className="valueBalance">{stakeValue?.balance}</div>
-            )}
           </button>
         ) : (
           balanceSecondary()
         )}
         <button
           onClick={() => goTo(SendPage)}
-          className={`btnSend ${!stakeVisible ? "visible" : ""}`}
+          className={`btnSend ${!isStakeDropdownVisible ? "visible" : ""}`}
           type="button"
         >
           <Icon src={iconsObj.arrowGroup} />
           <div>Send</div>
         </button>
-        <NavFooter step={step} setStep={setStep} />
+        <NavFooter step={footerTab} setStep={setFooterTab} />
       </div>
-      {step === "tokens" ? (
-        <TokenList tokens={tokenList || []} />
+      {footerTab === "tokens" ? (
+        Array.isArray(tokenList) ? (
+          <TokenList tokens={tokenList} />
+        ) : (
+          <div className="footerLoadingContainer">
+            <Loading />
+          </div>
+        )
+      ) : Array.isArray(nftCollections) ? (
+        <NftCollectionsList nftCollections={nftCollections} />
       ) : (
-        <NftList nfts={[]} />
+        <div className="footerLoadingContainer">
+          <Loading />
+        </div>
       )}
     </div>
   );

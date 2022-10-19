@@ -1,14 +1,22 @@
 import "./index.css";
-
-export interface NFT {
-  name: string;
-  icon: string;
-}
+import React from "react";
+import { NftCollection } from "../../types";
+import { NftCollectionGrid } from "../nftCollectionGrid";
 
 interface Props {
-  nfts: NFT[];
+  nftCollections: NftCollection[];
 }
 
-export const NftList = ({ nfts }: Props) => {
-  return <div className="nftListContainer">You don't have NFTs</div>;
+export const NftCollectionsList = ({ nftCollections }: Props) => {
+  return (
+    <div className="nftCollectionsContainer">
+      {nftCollections?.length ? (
+        nftCollections.map((collection, index) => (
+          <NftCollectionGrid collection={collection} key={index} />
+        ))
+      ) : (
+        <div className="noCollections">You don't have NFTs</div>
+      )}
+    </div>
+  );
 };
