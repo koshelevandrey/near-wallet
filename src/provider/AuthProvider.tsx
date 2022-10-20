@@ -1,4 +1,3 @@
-import { PublicKey } from "@cidt/near-plugin-js/build/wrap";
 import { PolywrapProvider } from "@polywrap/react";
 import { useMemo } from "react";
 import {
@@ -24,10 +23,7 @@ const isInDevelopmentMode = process?.env?.NODE_ENV === "development";
 interface AuthProviderValue extends AuthState {
   currentAccount: AccountWithPrivateKey | undefined;
   accounts: AccountWithPrivateKey[];
-  addPublicKey: (
-    accountId: string,
-    publicKey: PublicKey
-  ) => AccountWithPrivateKey;
+  addPublicKey: (accountId: string, publicKey: string) => AccountWithPrivateKey;
   addAccount: (newAccount: AccountWithPrivateKey) => Promise<Boolean>;
   selectAccount: (index: number) => Promise<void>;
   changeNetwork: (newNetwork: Network) => Promise<Boolean>;
@@ -48,7 +44,7 @@ const AuthProvider = (props: Omit<ProviderProps<AuthState>, "value">) => {
   const [state, setState] = useState<AuthState>({
     selectedAccountIndex: undefined,
     accounts: [],
-    network: "mainnet",
+    network: "testnet",
     loading: true,
   });
 
@@ -91,7 +87,7 @@ const AuthProvider = (props: Omit<ProviderProps<AuthState>, "value">) => {
   }, []);
 
   const addPublicKey = useCallback(
-    (accountId: string, publicKey: PublicKey) => {
+    (accountId: string, publicKey: string) => {
       const index = state.accounts.findIndex(
         (acc) => acc.accountId === accountId
       );
@@ -144,7 +140,6 @@ const AuthProvider = (props: Omit<ProviderProps<AuthState>, "value">) => {
   }, []);
 
   const init = useCallback(async (network: Network = "testnet") => {
-    console.log("Initializing Auth Provider");
     const accounts = await initAccounts();
     setState((state) => ({ ...state, network, accounts, loading: false }));
   }, []); //eslint-disable-line
@@ -154,7 +149,6 @@ const AuthProvider = (props: Omit<ProviderProps<AuthState>, "value">) => {
       console.log("updateAccount called");
       const currentAccount = await appLocalStorage.getCurrentAccount();
       if (currentAccount) {
-        console.log("current Account", currentAccount);
         selectAccount(currentAccount.accountId);
       }
     };
