@@ -58,9 +58,12 @@ footer {
   font-size: 12px;
   line-height: 16px;
   color: #20202040;
-  height: 24px;
+  min-height: 24px;
   display: flex;
   align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
 .header .dropdownBtn .arrowIcon {
   rotate: -90deg;
@@ -79,7 +82,14 @@ footer {
   width: 16px;
   height: 16px;
   margin-right: 4px;
-  display: inline-block;
+}
+.header .dropdownBtn .currentAccountIcon {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  margin-right: 4px;
+  background: white;
 }
 .header .item .nearIconTitle{ 
   width: 20px; 
@@ -124,9 +134,10 @@ footer {
 }
 .header .interationBtn>div {
   width: 100%;
+  text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: left;
+  white-space: nowrap;
 }
 .header .interationBtn:hover {
   opacity: 0.6;
@@ -141,7 +152,10 @@ footer {
   font-size: 12px;
   line-height: 16px;
   color: #202020;
-
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .header .walletsContainer .nearIcon {

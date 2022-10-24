@@ -97,10 +97,8 @@ const Header = () => {
                   onClick={() => setDropdownVisible(!dropdownVisible)}
                   className="dropdownBtn"
                 >
-                  <NearIcon className="nearIcon" />
-                  <div>
-                    {formatWalletName(wallets[selectedWalletIndex]?.accountId)}
-                  </div>
+                  <NearIcon className="currentAccountIcon" />
+                  <div>{wallets[selectedWalletIndex]?.accountId}</div>
                   <ArrowIcon className="arrowIcon" />
                 </button>
               </div>
