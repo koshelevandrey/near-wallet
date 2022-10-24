@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { goBack, goTo as routerGoTo, getComponentStack } from "react-chrome-extension-router";
+import {
+  goBack,
+  goTo as routerGoTo,
+  getComponentStack,
+} from "react-chrome-extension-router";
 import { ReactComponent as NearIcon } from "../../images/nearIcon.svg";
 import { ReactComponent as OmniLogo } from "../../images/omniLogo.svg";
 import { ReactComponent as LockIcon } from "../../images/lockIcon.svg";
@@ -13,7 +17,6 @@ import { useAuth } from "../../hooks";
 import BalancePage from "../balancePage";
 import HomePage from "../homePage";
 import { useNavigate } from "react-router-dom";
-
 
 const formatWalletName = (str: string) => {
   if (str?.length <= 8) {
@@ -31,17 +34,16 @@ const Header = () => {
     selectAccount,
   } = useAuth();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  const goTo = (component:React.ComponentType)=> {
-    if(chrome.tabs) {
-      navigate('/')
+  const goTo = (component: React.ComponentType) => {
+    if (chrome.tabs) {
+      navigate("/");
     }
-    routerGoTo(component)
-  }
+    routerGoTo(component);
+  };
 
-  
   const handleAddAccount = () => {
     goTo(ChooseMethod);
   };
