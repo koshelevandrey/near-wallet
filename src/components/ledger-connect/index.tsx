@@ -72,6 +72,9 @@ const LedgerConnect = () => {
       if (!ids.length) {
         //Account not funded
         console.log("Account Not Funded");
+        if (chrome.tabs) {
+          navigate("/");
+        }
         goTo(AccountNeedsFundingPage, {
           account: newAccount,
         });
