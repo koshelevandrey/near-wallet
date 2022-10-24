@@ -1,4 +1,4 @@
-import { goTo } from "react-chrome-extension-router";
+import { goBack, goTo } from "react-chrome-extension-router";
 import { useNavigate } from "react-router-dom";
 import { useLedger } from "../../hooks/useLedger";
 import Header from "../header";
@@ -148,7 +148,7 @@ const LedgerConnect = () => {
             <button type="button" className="connect" onClick={handleOnConnect}>
               Connect Ledger
             </button>
-            <button type="button" className="cancel">
+            <button type="button" className="cancel" onClick={() => goBack()}>
               Cancel
             </button>
           </>
