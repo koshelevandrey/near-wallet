@@ -3,12 +3,13 @@ import { isEmpty } from "../../utils/common";
 import { BrowserStorageWrapper } from "./browserStorageWrapper";
 import { SessionStorage } from "./sessionStorage";
 import { decryptPrivateKeyWithPassword } from "../../utils/encryption";
+import { IS_IN_DEVELOPMENT_MODE } from "../../consts/app";
 
 const HASHED_PASSWORD_KEY = "hashedPassword";
 export const ACCOUNTS_KEY = "accounts";
 export const LAST_SELECTED_ACCOUNT_INDEX_KEY = "lastSelectedAccountIndex";
+export const WEBSITES_DATA_KEY = "websitesData";
 
-const isInDevelopmentMode = process?.env?.NODE_ENV === "development";
 export const LOCAL_STORAGE_CHANGED_EVENT_KEY = "near#localStorage";
 const LOCAL_STORAGE_CHANGED_EVENT = new Event(LOCAL_STORAGE_CHANGED_EVENT_KEY);
 
@@ -17,7 +18,7 @@ const sessionStorage = new SessionStorage();
 export class LocalStorage extends ExtensionStorage<LocalStorageData> {
   constructor() {
     let storage;
-    if (isInDevelopmentMode) {
+    if (IS_IN_DEVELOPMENT_MODE) {
       storage = new BrowserStorageWrapper(localStorage);
     } else {
       storage = chrome.storage.local;
@@ -38,7 +39,7 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
   async setHashedPassword(hashedPassword: string): Promise<void> {
     try {
       const result = await this.set({ [HASHED_PASSWORD_KEY]: hashedPassword });
-      if (isInDevelopmentMode) {
+      if (IS_IN_DEVELOPMENT_MODE) {
         window.dispatchEvent(LOCAL_STORAGE_CHANGED_EVENT);
       }
       return result;
@@ -89,7 +90,7 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
         isLedger: account.isLedger,
       });
       const result = await this.set({ [ACCOUNTS_KEY]: accounts });
-      if (isInDevelopmentMode) {
+      if (IS_IN_DEVELOPMENT_MODE) {
         window.dispatchEvent(LOCAL_STORAGE_CHANGED_EVENT);
       }
       await this.setLastSelectedAccountIndex(accounts.length - 1);
@@ -183,7 +184,7 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
       accounts[lastSelectedAccountIndex].tokens.push(token);
       await this.set({ [ACCOUNTS_KEY]: accounts });
 
-      if (isInDevelopmentMode) {
+      if (IS_IN_DEVELOPMENT_MODE) {
         window.dispatchEvent(LOCAL_STORAGE_CHANGED_EVENT);
       }
     } catch (error) {
@@ -219,6 +220,59 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
     }
     return undefined;
   }
+
+  public async getWebsiteConnectedAccounts(
+    websiteAddress: string
+  ): Promise<{ accountId: string; publicKey: string }[]> {
+    try {
+      const storageObject = await this.get();
+      const accounts = storageObject?.accounts;
+
+      if (!accounts) return [];
+
+      const websitesData = storageObject?.websitesData;
+      if (!websitesData) {
+        return [];
+      }
+      const connectedAccountIds =
+        websitesData.get(websiteAddress.toLowerCase()) || [];
+
+      return connectedAccountIds.map((accountId) => {
+        const correspondingAccount = accounts.find(
+          (account) => account.accountId === accountId
+        );
+        const publicKey = correspondingAccount?.publicKey || " ";
+        return {
+          accountId,
+          publicKey: publicKey,
+        };
+      });
+    } catch (error) {
+      console.info("[GetWebsiteConnectedAccounts]:", error);
+      return [];
+    }
+  }
+
+  public async setWebsiteConnectedAccounts(
+    websiteAddress: string,
+    accountIds: string[] | undefined
+  ): Promise<string[] | undefined> {
+    try {
+      const storageObject = await this.get();
+
+      let websitesData = storageObject?.websitesData;
+      if (!websitesData) {
+        websitesData = new Map<string, string[]>();
+      }
+      websitesData.set(websiteAddress.toLowerCase(), accountIds || []);
+      await this.set({ [WEBSITES_DATA_KEY]: websitesData });
+
+      return accountIds;
+    } catch (error) {
+      console.error("[SetWebsiteConnectedAccounts]:", error);
+      return undefined;
+    }
+  }
 }
 
 /**
@@ -236,6 +290,14 @@ interface LocalStorageData {
    * Index of last selected account (if there is any).
    */
   lastSelectedAccountIndex: number;
+
+  /**
+   * Map of following data:
+   *   website => list of connected accountIds
+   *
+   * Used by injected API to save which websites were given access to which accounts.
+   */
+  websitesData: Map<string, string[]>;
 }
 
 export interface LocalStorageAccount {

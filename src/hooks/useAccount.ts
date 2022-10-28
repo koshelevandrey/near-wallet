@@ -6,8 +6,7 @@ import {
   LocalStorage,
 } from "../services/chrome/localStorage";
 import { useEffect, useState } from "react";
-
-const isInDevelopmentMode = process?.env?.NODE_ENV === "development";
+import { IS_IN_DEVELOPMENT_MODE } from "../consts/app";
 
 const appLocalStorage = new LocalStorage();
 
@@ -46,7 +45,7 @@ export const useAccount = (): AccountWithPrivateKey | null => {
       return () => {
         chrome.storage.onChanged.removeListener(onChange);
       };
-    } else if (isInDevelopmentMode) {
+    } else if (IS_IN_DEVELOPMENT_MODE) {
       const onChange = () => {
         setForceUpdateAccount((prevState) => !prevState);
       };

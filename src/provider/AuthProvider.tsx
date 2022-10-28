@@ -16,10 +16,10 @@ import {
 } from "../services/chrome/localStorage";
 import { Network } from "../types";
 import { getPolywrapConfig } from "../utils/polywrap";
+import { IS_IN_DEVELOPMENT_MODE } from "../consts/app";
 
 const appLocalStorage = new LocalStorage();
 
-const isInDevelopmentMode = process?.env?.NODE_ENV === "development";
 interface AuthProviderValue extends AuthState {
   currentAccount: AccountWithPrivateKey | undefined;
   accounts: AccountWithPrivateKey[];
@@ -203,7 +203,7 @@ const setEventListeners = (updateAccount: () => void) => {
     return () => {
       chrome.storage.onChanged.removeListener(onChange);
     };
-  } else if (isInDevelopmentMode) {
+  } else if (IS_IN_DEVELOPMENT_MODE) {
     window.addEventListener(LOCAL_STORAGE_CHANGED_EVENT_KEY, updateAccount);
     return () => {
       window.removeEventListener(

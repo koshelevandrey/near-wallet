@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import Icon from "../icon";
 import iconsObj from "../../assets/icons";
 import ChooseMethod from "../chooseMethod";
@@ -11,6 +11,8 @@ import CreatePasswordPage from "../createPasswordPage";
 import { isPasswordCorrect } from "../../utils/encryption";
 import { ClipLoader } from "react-spinners";
 import { InputField } from "../form/inputField";
+import { INJECTED_API_METHOD_QUERY_PARAM_KEY } from "../../scripts/scripts.consts";
+import SendPage from "../sendPage";
 
 const HomePage = () => {
   const [localStorage] = useState<LocalStorage>(new LocalStorage());
@@ -28,6 +30,28 @@ const HomePage = () => {
   const [inputPasswordError, setInputPasswordError] = useState<string | null>(
     null
   );
+
+  const [requestedInjectedApiMethod, setRequestedInjectedApiMethod] = useState<
+    string | null | undefined
+  >(undefined);
+
+  useEffect(() => {
+    const requestedInjectedApiMethod = new URLSearchParams(
+      window.location.search
+    ).get(INJECTED_API_METHOD_QUERY_PARAM_KEY);
+    setRequestedInjectedApiMethod(requestedInjectedApiMethod || null);
+  }, []);
+
+  const handleNextPage = useCallback(() => {
+    switch (requestedInjectedApiMethod) {
+      case "connect":
+        goTo(SendPage);
+        return;
+      default:
+        goTo(BalancePage);
+        return;
+    }
+  }, [requestedInjectedApiMethod]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -59,7 +83,7 @@ const HomePage = () => {
 
         const isUnlocked = await sessionStorage.isExtensionUnlocked();
         if (isUnlocked) {
-          goTo(BalancePage);
+          handleNextPage();
         }
       } catch (error) {
         console.error("Failed to initialize:", error);
@@ -68,19 +92,24 @@ const HomePage = () => {
       }
     };
 
-    if (shouldInitialize) {
+    if (shouldInitialize && requestedInjectedApiMethod !== undefined) {
       initialize().catch((error) => {
         console.error("[HomePageInitialize]:", error);
       });
     }
-  }, [localStorage, sessionStorage, shouldInitialize]);
+  }, [
+    localStorage,
+    sessionStorage,
+    shouldInitialize,
+    requestedInjectedApiMethod,
+  ]);
 
   const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputPassword(e?.target?.value);
   };
 
   const handleUnlock = async () => {
-    if (isUnlocking || !storageHashedPassword) {
+    if (shouldInitialize || isUnlocking || !storageHashedPassword) {
       return;
     }
 
@@ -93,7 +122,7 @@ const HomePage = () => {
         if (shouldCreateAccount) {
           goTo(ChooseMethod);
         } else {
-          goTo(BalancePage);
+          handleNextPage();
         }
       } else {
         setInputPasswordError("Wrong password");
@@ -134,7 +163,7 @@ const HomePage = () => {
             onClick={handleUnlock}
             type="button"
             className="btn"
-            disabled={isUnlocking || !inputPassword}
+            disabled={isUnlocking || !inputPassword || shouldInitialize}
           >
             {isUnlocking ? <ClipLoader color="#fff" size={14} /> : "Unlock"}
           </button>
