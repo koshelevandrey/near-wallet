@@ -12,7 +12,7 @@ import { isPasswordCorrect } from "../../utils/encryption";
 import { ClipLoader } from "react-spinners";
 import { InputField } from "../form/inputField";
 import { INJECTED_API_METHOD_QUERY_PARAM_KEY } from "../../scripts/scripts.consts";
-import SendPage from "../sendPage";
+import { ConnectAccountsPage } from "../connectAccountsPage";
 
 const HomePage = () => {
   const [localStorage] = useState<LocalStorage>(new LocalStorage());
@@ -45,7 +45,10 @@ const HomePage = () => {
   const handleNextPage = useCallback(() => {
     switch (requestedInjectedApiMethod) {
       case "connect":
-        goTo(SendPage);
+        const website = new URLSearchParams(window.location.search).get(
+          "website"
+        );
+        goTo(ConnectAccountsPage, { website: website });
         return;
       default:
         goTo(BalancePage);

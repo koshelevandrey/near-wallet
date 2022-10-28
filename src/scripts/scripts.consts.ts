@@ -5,6 +5,8 @@ export const WALLET_INJECTED_API_MESSAGE_TARGET =
 
 export const INJECTED_API_INITIALIZED_EVENT_NAME =
   "omniWallet#event-initialized";
+export const CONNECTED_ACCOUNTS_UPDATED_EVENT =
+  "omniWallet#event-connected-accounts-updated";
 
 export const INJECTED_API_CONNECT_METHOD = "omniWallet#method-connect";
 export const INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD =

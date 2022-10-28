@@ -4,6 +4,11 @@ import { BrowserStorageWrapper } from "./browserStorageWrapper";
 import { SessionStorage } from "./sessionStorage";
 import { decryptPrivateKeyWithPassword } from "../../utils/encryption";
 import { IS_IN_DEVELOPMENT_MODE } from "../../consts/app";
+import { InjectedAPIMessage } from "../../scripts/injectedAPI.types";
+import {
+  INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
+  WALLET_INJECTED_API_MESSAGE_TARGET,
+} from "../../scripts/scripts.consts";
 
 const HASHED_PASSWORD_KEY = "hashedPassword";
 export const ACCOUNTS_KEY = "accounts";
@@ -235,7 +240,7 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
         return [];
       }
       const connectedAccountIds =
-        websitesData.get(websiteAddress.toLowerCase()) || [];
+        websitesData[websiteAddress.toLowerCase()] || [];
 
       return connectedAccountIds.map((accountId) => {
         const correspondingAccount = accounts.find(
@@ -258,14 +263,36 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
     accountIds: string[] | undefined
   ): Promise<string[] | undefined> {
     try {
+      if (!websiteAddress) {
+        throw new Error("websiteAddress arg is empty");
+      }
+
       const storageObject = await this.get();
 
       let websitesData = storageObject?.websitesData;
       if (!websitesData) {
-        websitesData = new Map<string, string[]>();
+        websitesData = {};
       }
-      websitesData.set(websiteAddress.toLowerCase(), accountIds || []);
+      websitesData[websiteAddress.toLowerCase()] = accountIds || [];
       await this.set({ [WEBSITES_DATA_KEY]: websitesData });
+
+      const message: InjectedAPIMessage = {
+        target: WALLET_INJECTED_API_MESSAGE_TARGET,
+        method: INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
+        response: accountIds,
+      };
+      //
+      console.log("[SetWebsiteConnectedAccounts] postMessage data:", {
+        window,
+        message,
+        websiteAddress,
+      });
+      //
+      await chrome.runtime.sendMessage({
+        data: message,
+        origin: websiteAddress,
+      });
+      //window.postMessage(message, "*" /*websiteAddress*/);
 
       return accountIds;
     } catch (error) {
@@ -297,7 +324,7 @@ interface LocalStorageData {
    *
    * Used by injected API to save which websites were given access to which accounts.
    */
-  websitesData: Map<string, string[]>;
+  websitesData: Record<string, string[]>;
 }
 
 export interface LocalStorageAccount {

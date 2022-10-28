@@ -1,8 +1,11 @@
 import {
+  CONNECTED_ACCOUNTS_UPDATED_EVENT,
   INJECTED_API_CONNECT_METHOD,
   INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
   INJECTED_API_GET_NETWORK_METHOD,
   INJECTED_API_METHOD_QUERY_PARAM_KEY,
+  WALLET_CONTENTSCRIPT_MESSAGE_TARGET,
+  WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "./scripts.consts";
 import { LocalStorage } from "../services/chrome/localStorage";
 import { InjectedAPIMessage } from "./injectedAPI.types";
@@ -12,7 +15,7 @@ const POPUP_WIDTH = 440;
 
 const appLocalStorage = new LocalStorage();
 
-async function openPopup(query: string = "") {
+async function openPopup(query: string = ""): Promise<chrome.windows.Window> {
   let top = 0;
   let left = 0;
 
@@ -29,7 +32,7 @@ async function openPopup(query: string = "") {
     }
   } catch {}
 
-  await chrome.windows.create({
+  return chrome.windows.create({
     url: chrome.runtime.getURL(`index.html${query}`),
     type: "popup",
     height: POPUP_HEIGHT,
@@ -39,10 +42,30 @@ async function openPopup(query: string = "") {
   });
 }
 
-function handleConnect() {
+function handleConnect(website: string, sendResponse: any) {
   // TODO: check if popup is already opened (if opened do not open new one)
 
-  openPopup(`?${INJECTED_API_METHOD_QUERY_PARAM_KEY}=connect`);
+  openPopup(
+    `?${INJECTED_API_METHOD_QUERY_PARAM_KEY}=connect&website=${website}`
+  ).then((popup) => {
+    chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
+      //
+      console.log("[BackgroundHandleConnect]:", { popup, tabId, removeInfo });
+      //
+      if (tabId === popup.id || removeInfo?.windowId === popup.id) {
+        appLocalStorage
+          .getWebsiteConnectedAccounts(website)
+          .then((connectedAccounts) => {
+            sendResponse(connectedAccounts || []);
+          })
+          .catch(() => {
+            sendResponse([]);
+          });
+      }
+    });
+  });
+
+  return true;
 }
 
 function handleGetConnectedAccounts(website: string, sendResponse: any) {
@@ -50,9 +73,10 @@ function handleGetConnectedAccounts(website: string, sendResponse: any) {
     console.info(
       "[BackgroundHandleGetConnectedAccounts]: website arg is empty"
     );
-    return;
+    return [];
   }
 
+  // TODO: dispatch accountsChanged event?
   appLocalStorage
     .getWebsiteConnectedAccounts(website)
     .then((connectedAccounts) => {
@@ -79,6 +103,7 @@ if (chrome?.runtime) {
     const messageData: InjectedAPIMessage = message?.data;
     const method = messageData?.method;
     const params = messageData?.params;
+    const response = messageData?.response;
     console.info("[BackgroundMessage]:", {
       method,
       params,
@@ -86,14 +111,21 @@ if (chrome?.runtime) {
     });
     switch (method) {
       case INJECTED_API_CONNECT_METHOD:
-        handleConnect();
-        sendResponse();
-        break;
+        return handleConnect(origin, sendResponse);
       case INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD:
         return handleGetConnectedAccounts(origin, sendResponse);
       case INJECTED_API_GET_NETWORK_METHOD:
         handleGetNetwork();
         sendResponse();
+        break;
+      case CONNECTED_ACCOUNTS_UPDATED_EVENT:
+        const message: InjectedAPIMessage = {
+          target: WALLET_INJECTED_API_MESSAGE_TARGET,
+          method,
+          params,
+          response,
+        };
+        window.postMessage(message, window.location.origin);
         break;
       default:
         console.info("[BackgroundEventListener] unknown method:", method);

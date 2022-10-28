@@ -69,6 +69,14 @@ export class InjectedAPI {
     window.addEventListener("message", async (event) => {
       const message: InjectedAPIMessage = event?.data;
       const messageTo: string = message?.target;
+      //
+      console.info("[InjectedApiEventListener] message:", {
+        message,
+        messageTo,
+        source: event?.source,
+        isSkipped: event?.source !== window,
+      });
+      //
       if (
         event?.source !== window ||
         messageTo !== WALLET_INJECTED_API_MESSAGE_TARGET
@@ -79,11 +87,14 @@ export class InjectedAPI {
       const method = message?.method;
 
       //
-      console.info("[InjectedApiEventListener] message:", message);
+      //console.info("[InjectedApiEventListener] message:", message);
       //
 
       switch (method) {
         case INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD:
+          this.handleGetConnectedAccountsEvent(message.response);
+          break;
+        case INJECTED_API_CONNECT_METHOD:
           this.handleGetConnectedAccountsEvent(message.response);
           break;
         default:
@@ -96,6 +107,12 @@ export class InjectedAPI {
   private async handleGetConnectedAccountsEvent(
     accountsPromise: GetConnectedAccountsResponse | undefined
   ) {
+    //
+    console.log(
+      "[InjectedAPIHandleGetConnectedAccountsEvent]:",
+      accountsPromise
+    );
+    //
     let accounts = await accountsPromise;
     if (Array.isArray(accounts)) {
       const accountsWithPublicKey = accounts.map((account) => ({
