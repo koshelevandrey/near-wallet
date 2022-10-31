@@ -35,7 +35,7 @@ if (chrome?.runtime && window?.location?.origin?.startsWith("http")) {
     }
 
     //
-    console.log("[ContentScript] event:", { event });
+    // console.log("[ContentScript] event:", { event });
     //
 
     // 1) Send message to background messages listener
@@ -45,9 +45,10 @@ if (chrome?.runtime && window?.location?.origin?.startsWith("http")) {
         if (response) {
           // 2) Send response from background script to injected API listener
           //
-          console.log("[ContentScript] background response:", response);
+          // console.log("[ContentScript] background response:", response);
           //
           const responseMessage: InjectedAPIMessage = {
+            id: message.id,
             target: WALLET_INJECTED_API_MESSAGE_TARGET,
             method: message.method,
             response,

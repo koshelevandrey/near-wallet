@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./index.css";
 import { LocalStorage } from "../../services/chrome/localStorage";
 import { useAuth } from "../../hooks";
-import { goBack } from "react-chrome-extension-router";
-import { closeCurrentTab } from "../../utils/router";
 import iconsObj from "../../assets/icons";
 import Icon from "../icon";
 import { ClipLoader } from "react-spinners";
@@ -67,7 +65,7 @@ export const ConnectAccountsPage = ({ website }: Props) => {
         : []
     );
 
-    setTimeout(() => window.close(), 2000);
+    setTimeout(() => window.close(), 1000);
   };
 
   const onCancel = () => {
@@ -101,10 +99,20 @@ export const ConnectAccountsPage = ({ website }: Props) => {
             </div>
           ))}
         </div>
-        <button type="button" className="btn confirm" onClick={onConfirm}>
+        <button
+          type="button"
+          className="btn confirm"
+          onClick={onConfirm}
+          disabled={isConfirming}
+        >
           {isConfirming ? <ClipLoader color="#fff" size={14} /> : "Confirm"}
         </button>
-        <button type="button" className="btn cancel" onClick={onCancel}>
+        <button
+          type="button"
+          className="btn cancel"
+          onClick={onCancel}
+          disabled={isConfirming}
+        >
           Cancel
         </button>
       </div>

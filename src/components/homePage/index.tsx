@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import Icon from "../icon";
 import iconsObj from "../../assets/icons";
 import ChooseMethod from "../chooseMethod";
@@ -42,19 +42,21 @@ const HomePage = () => {
     setRequestedInjectedApiMethod(requestedInjectedApiMethod || null);
   }, []);
 
-  const handleNextPage = useCallback(() => {
+  const handleNextPage = (
+    requestedInjectedApiMethod: string | null | undefined
+  ) => {
     switch (requestedInjectedApiMethod) {
       case "connect":
         const website = new URLSearchParams(window.location.search).get(
           "website"
         );
-        goTo(ConnectAccountsPage, { website: website });
+        goTo(ConnectAccountsPage, { website });
         return;
       default:
         goTo(BalancePage);
         return;
     }
-  }, [requestedInjectedApiMethod]);
+  };
 
   useEffect(() => {
     const initialize = async () => {
@@ -86,7 +88,7 @@ const HomePage = () => {
 
         const isUnlocked = await sessionStorage.isExtensionUnlocked();
         if (isUnlocked) {
-          handleNextPage();
+          handleNextPage(requestedInjectedApiMethod);
         }
       } catch (error) {
         console.error("Failed to initialize:", error);
@@ -125,7 +127,7 @@ const HomePage = () => {
         if (shouldCreateAccount) {
           goTo(ChooseMethod);
         } else {
-          handleNextPage();
+          handleNextPage(requestedInjectedApiMethod);
         }
       } else {
         setInputPasswordError("Wrong password");

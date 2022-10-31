@@ -98,6 +98,10 @@
     opacity: 0.5;
 }
 
+.connectAccountsPageContainer .body .btn {
+    user-select: none;
+}
+
 .connectAccountsPageContainer .body .btn:hover {
     opacity: 0.8;
 }

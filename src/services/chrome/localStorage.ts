@@ -282,17 +282,16 @@ export class LocalStorage extends ExtensionStorage<LocalStorageData> {
         response: accountIds,
       };
       //
-      console.log("[SetWebsiteConnectedAccounts] postMessage data:", {
-        window,
-        message,
-        websiteAddress,
-      });
+      // console.log("[SetWebsiteConnectedAccounts] postMessage data:", {
+      //   window,
+      //   message,
+      //   websiteAddress,
+      // });
       //
       await chrome.runtime.sendMessage({
         data: message,
         origin: websiteAddress,
       });
-      //window.postMessage(message, "*" /*websiteAddress*/);
 
       return accountIds;
     } catch (error) {

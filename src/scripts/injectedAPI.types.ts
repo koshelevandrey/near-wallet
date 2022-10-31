@@ -15,4 +15,5 @@ export interface InjectedAPIMessage {
   method: string;
   params?: any;
   response?: any;
+  id?: string;
 }

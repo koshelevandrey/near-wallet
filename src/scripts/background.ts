@@ -4,11 +4,11 @@ import {
   INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
   INJECTED_API_GET_NETWORK_METHOD,
   INJECTED_API_METHOD_QUERY_PARAM_KEY,
-  WALLET_CONTENTSCRIPT_MESSAGE_TARGET,
   WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "./scripts.consts";
 import { LocalStorage } from "../services/chrome/localStorage";
 import { InjectedAPIMessage } from "./injectedAPI.types";
+import TabRemoveInfo = chrome.tabs.TabRemoveInfo;
 
 const POPUP_HEIGHT = 640;
 const POPUP_WIDTH = 440;
@@ -47,23 +47,35 @@ function handleConnect(website: string, sendResponse: any) {
 
   openPopup(
     `?${INJECTED_API_METHOD_QUERY_PARAM_KEY}=connect&website=${website}`
-  ).then((popup) => {
-    chrome.tabs.onRemoved.addListener((tabId, removeInfo) => {
-      //
-      console.log("[BackgroundHandleConnect]:", { popup, tabId, removeInfo });
-      //
-      if (tabId === popup.id || removeInfo?.windowId === popup.id) {
-        appLocalStorage
-          .getWebsiteConnectedAccounts(website)
-          .then((connectedAccounts) => {
-            sendResponse(connectedAccounts || []);
-          })
-          .catch(() => {
-            sendResponse([]);
-          });
-      }
+  )
+    .then((popup) => {
+      const listener = (tabId: number, removeInfo: TabRemoveInfo) => {
+        //
+        // console.log(`[BackgroundHandleConnectListener#${popup.id}]:`, {
+        //   popup,
+        //   tabId,
+        //   removeInfo,
+        // });
+        //
+        if (removeInfo?.windowId === popup.id) {
+          appLocalStorage
+            .getWebsiteConnectedAccounts(website)
+            .then((connectedAccounts) => {
+              sendResponse(connectedAccounts || []);
+            })
+            .catch(() => {
+              sendResponse([]);
+            })
+            .finally(() => {
+              chrome.tabs.onRemoved.removeListener(listener);
+            });
+        }
+      };
+      chrome.tabs.onRemoved.addListener(listener);
+    })
+    .catch(() => {
+      sendResponse([]);
     });
-  });
 
   return true;
 }
@@ -119,13 +131,14 @@ if (chrome?.runtime) {
         sendResponse();
         break;
       case CONNECTED_ACCOUNTS_UPDATED_EVENT:
-        const message: InjectedAPIMessage = {
+        const responseMessage: InjectedAPIMessage = {
+          id: messageData.id,
           target: WALLET_INJECTED_API_MESSAGE_TARGET,
           method,
           params,
           response,
         };
-        window.postMessage(message, window.location.origin);
+        window.postMessage(responseMessage, window.location.origin);
         break;
       default:
         console.info("[BackgroundEventListener] unknown method:", method);
