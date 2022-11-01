@@ -7,8 +7,8 @@ import {
   WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "./scripts.consts";
 import { LocalStorage } from "../services/chrome/localStorage";
-import { InjectedAPIMessage } from "./injectedAPI.types";
 import TabRemoveInfo = chrome.tabs.TabRemoveInfo;
+import { InjectedAPIMessage } from "./injectedAPI.custom.types";
 
 const POPUP_HEIGHT = 640;
 const POPUP_WIDTH = 440;

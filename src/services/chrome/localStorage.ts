@@ -4,11 +4,11 @@ import { BrowserStorageWrapper } from "./browserStorageWrapper";
 import { SessionStorage } from "./sessionStorage";
 import { decryptPrivateKeyWithPassword } from "../../utils/encryption";
 import { IS_IN_DEVELOPMENT_MODE } from "../../consts/app";
-import { InjectedAPIMessage } from "../../scripts/injectedAPI.types";
 import {
   INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
   WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "../../scripts/scripts.consts";
+import { InjectedAPIMessage } from "../../scripts/injectedAPI.custom.types";
 
 const HASHED_PASSWORD_KEY = "hashedPassword";
 export const ACCOUNTS_KEY = "accounts";

@@ -101,7 +101,7 @@ export const ConnectAccountsPage = ({ website }: Props) => {
         </div>
         <button
           type="button"
-          className="btn confirm"
+          className="connectAccountsBtn confirm"
           onClick={onConfirm}
           disabled={isConfirming}
         >
@@ -109,7 +109,7 @@ export const ConnectAccountsPage = ({ website }: Props) => {
         </button>
         <button
           type="button"
-          className="btn cancel"
+          className="connectAccountsBtn cancel"
           onClick={onCancel}
           disabled={isConfirming}
         >

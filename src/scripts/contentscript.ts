@@ -2,7 +2,7 @@ import {
   WALLET_CONTENTSCRIPT_MESSAGE_TARGET,
   WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "./scripts.consts";
-import { InjectedAPIMessage } from "./injectedAPI.types";
+import { InjectedAPIMessage } from "./injectedAPI.custom.types";
 
 function injectInpageScript() {
   try {

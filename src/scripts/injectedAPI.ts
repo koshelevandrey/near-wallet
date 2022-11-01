@@ -3,6 +3,7 @@ import {
   INJECTED_API_GET_CONNECTED_ACCOUNTS_METHOD,
   INJECTED_API_GET_NETWORK_METHOD,
   INJECTED_API_INITIALIZED_EVENT_NAME,
+  UNINITIALIZED_NETWORK,
   WALLET_CONTENTSCRIPT_MESSAGE_TARGET,
   WALLET_INJECTED_API_MESSAGE_TARGET,
 } from "./scripts.consts";
@@ -14,13 +15,21 @@ import {
 } from "./scripts.types";
 import {
   InjectedAPIAccount,
-  InjectedAPIMessage,
+  InjectedAPIConnectParams,
+  InjectedAPIEvents,
   InjectedAPINetwork,
+  InjectedAPISignInParams,
+  InjectedAPISignOutParams,
+  InjectedAPISignTransactionParams,
+  InjectedAPISignTransactionsParams,
+  InjectedAPIUnsubscribe,
+  InjectedWallet,
 } from "./injectedAPI.types";
-import { utils } from "near-api-js";
+import { transactions, utils } from "near-api-js";
 import { v4 as uuidv4 } from "uuid";
+import { InjectedAPIMessage } from "./injectedAPI.custom.types";
 
-export class InjectedAPI {
+export class InjectedAPI implements InjectedWallet {
   public readonly id: string = "omniWallet";
 
   public initialized: boolean = false;
@@ -29,7 +38,7 @@ export class InjectedAPI {
     return this.accounts?.length > 0;
   }
 
-  public network: InjectedAPINetwork | undefined = undefined;
+  public network: InjectedAPINetwork = UNINITIALIZED_NETWORK;
 
   public accounts: InjectedAPIAccount[] = [];
 
@@ -56,7 +65,14 @@ export class InjectedAPI {
       });
   }
 
-  public async connect(storage: any) {
+  public async supportsNetwork(networkId: string): Promise<boolean> {
+    return ["testnet", "mainnet"].indexOf(networkId) > -1;
+  }
+
+  // TODO: add changing network
+  public async connect(
+    params: InjectedAPIConnectParams
+  ): Promise<Array<InjectedAPIAccount>> {
     const response = await this.sendMessage<GetConnectedAccountsResponse>(
       INJECTED_API_CONNECT_METHOD,
       null,
@@ -65,40 +81,55 @@ export class InjectedAPI {
     return this.handleConnectedAccountsChange(response);
   }
 
-  public disconnect() {
+  public async disconnect(): Promise<void> {
     this.handleConnectedAccountsChange([]);
   }
 
-  public signIn() {}
+  public async signIn(params: InjectedAPISignInParams): Promise<void> {}
 
-  public signOut() {}
+  public async signOut(params: InjectedAPISignOutParams): Promise<void> {}
 
-  public on(eventName: InjectedApiEvents, callback: (data: any) => any) {
-    if (eventName === "accountsChanged" || eventName === "networkChanged") {
-      let callbacks = this.eventCallbacks.get(eventName) || [];
-      callbacks.push({ signature: callback.toString(), callback });
-      this.eventCallbacks.set(eventName, callbacks);
-    } else {
-      throw new Error(`Not supported event: ${eventName}`);
-    }
+  public on<EventName extends keyof InjectedAPIEvents>(
+    event: EventName,
+    callback: (params: InjectedAPIEvents[EventName]) => void
+  ): InjectedAPIUnsubscribe {
+    let callbacks = this.eventCallbacks.get(event) || [];
+    callbacks.push({ signature: callback.toString(), callback });
+    this.eventCallbacks.set(event, callbacks);
+    return () => {
+      this.off(event, callback);
+    };
   }
 
-  public off(eventName: InjectedApiEvents, callback: (data: any) => any) {
-    if (eventName === "accountsChanged" || eventName === "networkChanged") {
-      let callbacks = this.eventCallbacks.get(eventName) || [];
+  public off<EventName extends keyof InjectedAPIEvents>(
+    event: EventName,
+    callback?: (params: InjectedAPIEvents[EventName]) => void
+  ): void {
+    let callbacks = this.eventCallbacks.get(event) || [];
+    if (callback) {
       const callbackSignature = callback.toString();
       callbacks = callbacks.filter(
         (existingCallback) => existingCallback.signature !== callbackSignature
       );
-      this.eventCallbacks.set(eventName, callbacks);
     } else {
-      throw new Error(`Not supported event: ${eventName}`);
+      callbacks = [];
     }
+    this.eventCallbacks.set(event, callbacks);
   }
 
-  public signTransaction() {}
+  public async signTransaction(
+    params: InjectedAPISignTransactionParams
+  ): Promise<transactions.SignedTransaction> {
+    // TODO:
+    return transactions.SignedTransaction.decode(Buffer.from([1, 2]));
+  }
 
-  public signTransactions() {}
+  public async signTransactions(
+    params: InjectedAPISignTransactionsParams
+  ): Promise<Array<transactions.SignedTransaction>> {
+    // TODO:
+    return [transactions.SignedTransaction.decode(Buffer.from([1, 2]))];
+  }
 
   private setupEventListeners() {
     // TODO: listen to messages from content script and background script
@@ -159,12 +190,15 @@ export class InjectedAPI {
     return [];
   }
 
-  private async handleNetworkChange(network: InjectedAPINetwork) {
+  private async handleNetworkChange(
+    network: InjectedAPINetwork
+  ): Promise<InjectedAPINetwork> {
     this.executeEventCallbacks("networkChanged", network);
+    return network;
   }
 
   private async getNetwork() {
-    this.sendMessage(INJECTED_API_GET_NETWORK_METHOD);
+    this.sendMessage<InjectedAPINetwork>(INJECTED_API_GET_NETWORK_METHOD);
   }
 
   private async getConnectedAccounts() {
